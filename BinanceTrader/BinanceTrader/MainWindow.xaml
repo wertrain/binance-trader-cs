@@ -4,10 +4,82 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BinanceTrader"
-        xmlns:m="clr-namespace:BinanceTrader.Localize.Markup" 
+        xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
         Title="{m:Loc Binance Trader}" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="CloseCommand" />
+    </Window.CommandBindings>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+            <Menu VerticalAlignment="Top">
+                <MenuItem Header="{m:Loc File (_F)}">
+                    <MenuItem Header="{m:Loc Exit (_X)}" Command="Close"/>
+                </MenuItem>
+                <MenuItem Header="{m:Loc Tool (_T)}">
+                    <MenuItem Header="{m:Loc Theme (_M)}">
+                        <MenuItem Header="Generic" IsChecked="True" Click="MenuItemToolTheme_Click">
+                            <MenuItem.Tag>
+                                <xcad:GenericTheme />
+                            </MenuItem.Tag>
+                        </MenuItem>
+                        <MenuItem Header="Aero" Click="MenuItemToolTheme_Click">
+                            <MenuItem.Tag>
+                                <xcad:AeroTheme />
+                            </MenuItem.Tag>
+                        </MenuItem>
+                        <MenuItem Header="VS2010" Click="MenuItemToolTheme_Click">
+                            <MenuItem.Tag>
+                                <xcad:VS2010Theme />
+                            </MenuItem.Tag>
+                        </MenuItem>
+                        <MenuItem Header="Metro" Click="MenuItemToolTheme_Click">
+                            <MenuItem.Tag>
+                                <xcad:MetroTheme />
+                            </MenuItem.Tag>
+                        </MenuItem>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+        <xcad:DockingManager x:Name="_dockingManager" AllowMixedOrientation="True" Grid.Row="1">
+            <xcad:LayoutRoot>
+
+                <xcad:LayoutPanel Orientation="Vertical">
+                    <xcad:LayoutPanel Orientation="Horizontal">
+                        <xcad:LayoutAnchorablePane DockWidth="180">
+                            <!-- プロジェクトウィンドウ -->
+                            <xcad:LayoutAnchorable Title="{m:Loc Project}" ContentId="Project">
+                                <TextBox/>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutDocumentPane>
+                            <!-- ドキュメント -->
+                            <xcad:LayoutDocument Title="{m:Loc Document}" ContentId="Document">
+                                <TextBox/>
+                            </xcad:LayoutDocument>
+                        </xcad:LayoutDocumentPane>
+                    </xcad:LayoutPanel>
+                    <xcad:LayoutAnchorablePane DockHeight="120">
+                        <!-- 出力ウィンドウ -->
+                        <xcad:LayoutAnchorable  x:Name="_layoutAnchorableOutput" Title="{m:Loc Output}" ContentId="Output">
+                            <TextBox />
+                        </xcad:LayoutAnchorable>
+                        <!-- ログウィンドウ -->
+                        <xcad:LayoutAnchorable x:Name="_layoutAnchorableLog" Title="{m:Loc Log}" ContentId="Log">
+                            <TextBox />
+                        </xcad:LayoutAnchorable>
+
+                    </xcad:LayoutAnchorablePane>
+                </xcad:LayoutPanel>
+                
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
     </Grid>
 </Window>

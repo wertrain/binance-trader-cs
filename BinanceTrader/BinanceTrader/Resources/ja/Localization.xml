@@ -1,4 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StringLocalizationTable>
   <StringItem id="Binance Trader" context="" translation="Binance トレーダー" />
+  <StringItem id="File (_F)" context="" translation="ファイル (_F)" />
+  <StringItem id="Exit (_X)" context="" translation="終了 (_X)" />
+  <StringItem id="Tool (_T)" context="" translation="ツール (_T)" />
+  <StringItem id="Theme (_M)" context="" translation="テーマ (_M)" />
+  <StringItem id="Project" context="" translation="プロジェクト" />
+  <StringItem id="Document" context="" translation="ドキュメント" />
+  <StringItem id="Output" context="" translation="出力" />
+  <StringItem id="Log" context="" translation="ログ" />
 </StringLocalizationTable>
