@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BinanceTrader"
+        xmlns:control="clr-namespace:BinanceTrader.Controls"
         xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
@@ -50,22 +51,12 @@
         </StackPanel>
         <xcad:DockingManager x:Name="_dockingManager" AllowMixedOrientation="True" Grid.Row="1">
             <xcad:LayoutRoot>
-
                 <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutPanel Orientation="Horizontal">
-                        <xcad:LayoutAnchorablePane DockWidth="180">
-                            <!-- プロジェクトウィンドウ -->
-                            <xcad:LayoutAnchorable Title="{m:Loc Project}" ContentId="Project">
-                                <TextBox/>
-                            </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>
-                        <xcad:LayoutDocumentPane>
-                            <!-- ドキュメント -->
-                            <xcad:LayoutDocument Title="{m:Loc Document}" ContentId="Document">
-                                <TextBox/>
-                            </xcad:LayoutDocument>
-                        </xcad:LayoutDocumentPane>
-                    </xcad:LayoutPanel>
+                    <xcad:LayoutAnchorablePane DockHeight="*">
+                        <xcad:LayoutAnchorable  x:Name="_layoutAnchorableList" Title="{m:Loc TickerView}" ContentId="TickerView">
+                            <control:TickerList x:Name="_tickerList"/>
+                        </xcad:LayoutAnchorable>
+                    </xcad:LayoutAnchorablePane>
                     <xcad:LayoutAnchorablePane DockHeight="120">
                         <!-- 出力ウィンドウ -->
                         <xcad:LayoutAnchorable  x:Name="_layoutAnchorableOutput" Title="{m:Loc Output}" ContentId="Output">

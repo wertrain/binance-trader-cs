@@ -6,7 +6,11 @@
   <StringItem id="Tool (_T)" context="" translation="ツール (_T)" />
   <StringItem id="Theme (_M)" context="" translation="テーマ (_M)" />
   <StringItem id="Project" context="" translation="プロジェクト" />
-  <StringItem id="Document" context="" translation="ドキュメント" />
+  <StringItem id="TickerView" context="" translation="ティッカービュー" />
   <StringItem id="Output" context="" translation="出力" />
   <StringItem id="Log" context="" translation="ログ" />
+  
+  <StringItem id="Symbol" context="" translation="シンボル" />
+  <StringItem id="Symbol" context="" translation="シンボル" />
+  <StringItem id="Price" context="" translation="価格" />
 </StringLocalizationTable>
