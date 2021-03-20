@@ -11,6 +11,17 @@
   <StringItem id="Log" context="" translation="ログ" />
   
   <StringItem id="Symbol" context="" translation="シンボル" />
-  <StringItem id="Symbol" context="" translation="シンボル" />
-  <StringItem id="Price" context="" translation="価格" />
+  <StringItem id="CurrentPrice" context="" translation="現在価格" />
+  <StringItem id="PriceSomeTimeAgo01" context="" translation="価格 (3分前)" />
+  <StringItem id="PriceSomeTimeAgo02" context="" translation="価格 (5分前)" />
+  <StringItem id="PriceSomeTimeAgo03" context="" translation="価格 (10分前)" />
+  <StringItem id="PriceSomeTimeAgo04" context="" translation="価格 (20分前)" />
+  <StringItem id="PriceSomeTimeAgo05" context="" translation="価格 (30分前)" />
+  <StringItem id="PriceSomeTimeAgo06" context="" translation="価格 (1時間前)" />
+  <StringItem id="PriceSomeTimeAgo07" context="" translation="価格 (2時間前)" />
+  <StringItem id="PriceSomeTimeAgo08" context="" translation="価格 (3時間前)" />
+  <StringItem id="PriceSomeTimeAgo09" context="" translation="価格 (6時間前)" />
+  <StringItem id="PriceSomeTimeAgo10" context="" translation="価格 (12時間前)" />
+  <StringItem id="PriceSomeTimeAgo11" context="" translation="価格 (18時間前)" />
+  <StringItem id="PriceSomeTimeAgo12" context="" translation="価格 (24時間前)" />
 </StringLocalizationTable>
