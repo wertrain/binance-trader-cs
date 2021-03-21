@@ -17,6 +17,8 @@ namespace BinanceTrader
         {
             System.Threading.Thread.CurrentThread.CurrentUICulture = System.Globalization.CultureInfo.CurrentCulture;
             Localize.Localizer.SetStringLocalizer(new Localize.EmbeddedResourceStringLocalizer());
+
+            Settings.Instance.Load();
         }
     }
 }

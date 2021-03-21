@@ -12,10 +12,26 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="100"/>
+
+                    <GridViewColumn Header="{m:Loc BaseAsset}" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding BaseAsset}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc QuoteAsset}" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding QuoteAsset}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
                     <GridViewColumn Header="{m:Loc CurrentPrice}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[0]}" Foreground="{Binding PriceColors[0]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[0]}" Foreground="{Binding PriceColors[0]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -23,84 +39,84 @@
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo01}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[1]}" Foreground="{Binding PriceColors[1]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[1]}" Foreground="{Binding PriceColors[1]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo02}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[2]}" Foreground="{Binding PriceColors[2]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[2]}" Foreground="{Binding PriceColors[2]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo03}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[3]}" Foreground="{Binding PriceColors[3]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[3]}" Foreground="{Binding PriceColors[3]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo04}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[4]}" Foreground="{Binding PriceColors[4]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[4]}" Foreground="{Binding PriceColors[4]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo05}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[5]}" Foreground="{Binding PriceColors[5]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[5]}" Foreground="{Binding PriceColors[5]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo06}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[6]}" Foreground="{Binding PriceColors[6]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[6]}" Foreground="{Binding PriceColors[6]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo07}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[7]}" Foreground="{Binding PriceColors[7]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[7]}" Foreground="{Binding PriceColors[7]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo08}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[8]}" Foreground="{Binding PriceColors[8]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[8]}" Foreground="{Binding PriceColors[8]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo09}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[9]}" Foreground="{Binding PriceColors[9]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[9]}" Foreground="{Binding PriceColors[9]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo10}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[10]}" Foreground="{Binding PriceColors[10]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[10]}" Foreground="{Binding PriceColors[10]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo11}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[11]}" Foreground="{Binding PriceColors[11]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[11]}" Foreground="{Binding PriceColors[11]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{m:Loc PriceSomeTimeAgo12}" Width="150">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Prices[12]}" Foreground="{Binding PriceColors[12]}" />
+                                <TextBlock Text="{Binding PricesWithRateChange[12]}" Foreground="{Binding PriceColors[12]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

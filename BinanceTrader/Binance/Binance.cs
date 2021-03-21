@@ -102,5 +102,28 @@ namespace Binance.Api
                 throw new BinanceApiException(httpResponse.StatusCode);
             }
         }
+
+        public string GetExchangeInfo()
+        {
+            var api = "/api/v3/exchangeInfo";
+
+            var request = WebRequest.Create(GetEntPoint() + api) as HttpWebRequest;
+            request.Method = "GET";
+            request.ContentType = "application/json;";
+
+            var httpResponse = request.GetResponse() as HttpWebResponse;
+
+            if (httpResponse.StatusCode == HttpStatusCode.OK)
+            {
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
+            else
+            {
+                throw new BinanceApiException(httpResponse.StatusCode);
+            }
+        }
     }
 }
