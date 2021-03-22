@@ -5,7 +5,7 @@
   <StringItem id="Exit (_X)" context="" translation="終了 (_X)" />
   <StringItem id="Tool (_T)" context="" translation="ツール (_T)" />
   <StringItem id="Theme (_M)" context="" translation="テーマ (_M)" />
-  <StringItem id="Project" context="" translation="プロジェクト" />
+  <StringItem id="Chart" context="" translation="チャート" />
   <StringItem id="TickerView" context="" translation="ティッカービュー" />
   <StringItem id="Output" context="" translation="出力" />
   <StringItem id="Log" context="" translation="ログ" />

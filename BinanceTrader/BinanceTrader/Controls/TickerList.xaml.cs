@@ -140,6 +140,7 @@ namespace BinanceTrader.Controls
         {
             //var exchangeInfo = BinanceApiManager.Instance.Client.GetExchangeInfo();
             var exchangeInfo = readDummyExchangeInfo();
+            if (string.IsNullOrEmpty(exchangeInfo)) return;
             dynamic jsonExchangeInfo = JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(exchangeInfo);
 
             var symbols = ((IDictionary<string, object>)jsonExchangeInfo)["symbols"];
@@ -182,8 +183,10 @@ namespace BinanceTrader.Controls
             }
 
             // 過去の価格をサーバーから取得
-            //var jsonStrings = downloadJsonPrices().Split('\n');
-            var jsonStrings = readDummyPrices().Split('\n');
+            //var jsonPrice = downloadJsonPrices();
+            var jsonPrice = readDummyPrices();
+            if (string.IsNullOrEmpty(jsonPrice)) return;
+            var jsonStrings = jsonPrice.Split('\n');
             foreach (var jsonString in jsonStrings)
             {
                 var jsonPrices = JsonSerializer.Deserialize<List<JsonPricePair>>(jsonString, new JsonSerializerOptions
@@ -229,6 +232,8 @@ namespace BinanceTrader.Controls
         /// <returns></returns>
         private string readDummyPrices()
         {
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return string.Empty;
+
             var assembly = System.Reflection.Assembly.GetEntryAssembly();
             using (StreamReader sr = new StreamReader(System.IO.Path.GetDirectoryName(assembly.Location) + System.IO.Path.DirectorySeparatorChar + "dummy_prices.txt", Encoding.GetEncoding("utf-8")))
             {
@@ -242,11 +247,18 @@ namespace BinanceTrader.Controls
         /// <returns></returns>
         private string readDummyExchangeInfo()
         {
+            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return string.Empty;
+
             var assembly = System.Reflection.Assembly.GetEntryAssembly();
             using (StreamReader sr = new StreamReader(System.IO.Path.GetDirectoryName(assembly.Location) + System.IO.Path.DirectorySeparatorChar + "dummy_exchangeinfo.txt", Encoding.GetEncoding("utf-8")))
             {
                 return sr.ReadToEnd();
             }
+        }
+
+        string GetPath([System.Runtime.CompilerServices.CallerFilePath] string from = null)
+        {
+            return from;
         }
 
         /// <summary>

@@ -52,11 +52,20 @@
         <xcad:DockingManager x:Name="_dockingManager" AllowMixedOrientation="True" Grid.Row="1">
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Vertical">
-                    <xcad:LayoutAnchorablePane DockHeight="*">
-                        <xcad:LayoutAnchorable  x:Name="_layoutAnchorableList" Title="{m:Loc TickerView}" ContentId="TickerView">
-                            <control:TickerList x:Name="_tickerList"/>
-                        </xcad:LayoutAnchorable>
-                    </xcad:LayoutAnchorablePane>
+                    <xcad:LayoutPanel Orientation="Horizontal">
+                        <xcad:LayoutAnchorablePane DockHeight="*">
+                            <!-- 銘柄リストウィンドウ -->
+                            <xcad:LayoutAnchorable  x:Name="_layoutAnchorableList" Title="{m:Loc TickerView}" ContentId="TickerView">
+                                <control:TickerList x:Name="_tickerList"/>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>                        
+                        <xcad:LayoutAnchorablePane DockWidth="180">
+                            <!-- チャートウィンドウ -->
+                            <xcad:LayoutAnchorable Title="{m:Loc Chart}" ContentId="Chart">
+                                <control:Chart/>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePane DockHeight="120">
                         <!-- 出力ウィンドウ -->
                         <xcad:LayoutAnchorable  x:Name="_layoutAnchorableOutput" Title="{m:Loc Output}" ContentId="Output">
