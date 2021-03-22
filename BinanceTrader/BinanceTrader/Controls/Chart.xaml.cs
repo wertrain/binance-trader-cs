@@ -42,17 +42,17 @@ namespace BinanceTrader.Controls
             _chart.plt.PlotPoint(50, 20, color: System.Drawing.Color.Magenta, markerSize: 10);
 
             //グラフのタイトルを表示
-            _chart.plt.Title("Signal Plot サンプル", fontName: "游ゴシック");
+            _chart.plt.Title("Signal Plot サンプル", fontName: "Yu Gothic UI");
 
             //縦軸のタイトル
-            _chart.plt.YLabel("縦軸のタイトル", fontName: "游ゴシック", fontSize: 14);
+            _chart.plt.YLabel("縦軸のタイトル", fontName: "Yu Gothic UI", fontSize: 14);
 
             //横軸のタイトル
-            _chart.plt.XLabel("横軸のタイトル", fontName: "游ゴシック", fontSize: 14);
+            _chart.plt.XLabel("横軸のタイトル", fontName: "Yu Gothic UI", fontSize: 14);
 
             //クライアント座標（左上が原点となるコントロール上の座標）で任意の文字列を表示
             _chart.plt.PlotAnnotation("任意の注意事項", 10, 200,
-                fontSize: 24, fontName: "游ゴシック", fontColor: System.Drawing.Color.Red, shadow: true,
+                fontSize: 24, fontName: "Yu Gothic UI", fontColor: System.Drawing.Color.Red, shadow: true,
                 fill: true, fillColor: System.Drawing.Color.White, fillAlpha: 1, lineWidth: 2);
 
             //表示しているグラフのスケール座標に任意の文字列を表示
