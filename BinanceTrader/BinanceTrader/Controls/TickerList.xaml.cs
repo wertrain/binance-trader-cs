@@ -20,6 +20,61 @@ using System.IO;
 namespace BinanceTrader.Controls
 {
     /// <summary>
+    /// 価格用コンバーター
+    /// </summary>
+    public class PriceToString : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return ((float)value).ToString("0.##############");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return float.Parse(value as string);
+        }
+    }
+
+    /// <summary>
+    /// 変化率用コンバーター
+    /// </summary>
+    public class RateToString : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var percent = ((float)value);
+
+#if false
+            var sb = new StringBuilder();
+            sb.Append(percent.ToString("P"));
+
+            if (percent == 0)
+            {
+                sb.Append("➙");
+            }
+            else if (percent > 0.0)
+            {
+                sb.Append("➚");
+            }
+            else
+            {
+                sb.Append("➘");
+            }
+
+            return sb.ToString();
+
+#else
+            return percent.ToString("P");
+#endif
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return float.Parse(value as string);
+        }
+    }
+
+    /// <summary>
     /// TickerList.xaml の相互作用ロジック
     /// </summary>
     public partial class TickerList : UserControl
@@ -61,10 +116,9 @@ namespace BinanceTrader.Controls
             public List<float> Prices { get; set; }
 
             /// <summary>
-            /// 時間ごとの価格
+            /// 時間ごとの変動率
             /// </summary>
-            public List<string> PricesWithRateChange { get; set; }
-
+            public List<float> Rates { get; set; }
             /// <summary>
             /// 
             /// </summary>
@@ -76,7 +130,7 @@ namespace BinanceTrader.Controls
             public TickerPrices()
             {
                 Prices = new List<float>();
-                PricesWithRateChange = new List<string> ();
+                Rates = new List<float>();
                 PriceColors = new List<Brush>();
             }
         }
@@ -130,7 +184,7 @@ namespace BinanceTrader.Controls
             UpdateSymbols();
             UpdateTickers();
 
-            _listView.ItemsSource = Prices;
+            _listViewTickers.ItemsSource = Prices;
         }
 
         /// <summary>
@@ -256,11 +310,6 @@ namespace BinanceTrader.Controls
             }
         }
 
-        string GetPath([System.Runtime.CompilerServices.CallerFilePath] string from = null)
-        {
-            return from;
-        }
-
         /// <summary>
         /// 価格情報を更新
         /// </summary>
@@ -286,47 +335,35 @@ namespace BinanceTrader.Controls
             Prices.Clear();
             foreach (var pair in priceMap)
             {
-                var pricesWithRateChange = new List<string>();
+                var rates = new List<float>();
                 var priceColors = new List<Brush>();
 
-                // 一番最後（現在は24時間前の情報）との比較でパーセンテージを表示
+                // 末尾（現在は24時間前の情報）との比較でパーセンテージを表示
                 var target = pair.Value.LastOrDefault();
                 for (int i = 0; i < pair.Value.Count - 1; ++i)
                 {
                     var current = pair.Value[i];
                     //var target = pair.Value[i + 1];
                     var percent = ((current - target) / target);
-
-                    var sb = new StringBuilder();
-                    sb.Append(current.ToString("0.##############"));
-                    sb.Append(" (");
-                    sb.Append(percent.ToString("P"));
+                    rates.Add(percent);
 
                     if (percent == 0)
                     {
                         priceColors.Add(Brushes.DarkSlateGray);
-                        sb.Append("➙");
                     }
                     else if (percent > 0.0)
                     {
                         priceColors.Add(Brushes.BlueViolet);
-                        sb.Append("➚");
                     }
                     else
                     {
                         priceColors.Add(Brushes.OrangeRed);
-                        sb.Append("➘");
                     }
-                    sb.Append(")");
-
-                    pricesWithRateChange.Add(sb.ToString());
                 }
-
+                // なので末尾は比較対象がない
                 {
-                    var sb = new StringBuilder();
-                    sb.Append(pair.Value.LastOrDefault());
                     priceColors.Add(Brushes.DarkSlateGray);
-                    pricesWithRateChange.Add(sb.ToString());
+                    rates.Add(0);
                 }
 
                 var baseAsset = string.Empty;
@@ -343,10 +380,53 @@ namespace BinanceTrader.Controls
                     BaseAsset = baseAsset,
                     QuoteAsset = quoteAsset,
                     Prices = pair.Value,
-                    PricesWithRateChange = pricesWithRateChange,
+                    Rates = rates,
                     PriceColors = priceColors
                 });
             }
+        }
+
+        /// <summary>
+        /// 銘柄を選択変更イベント
+        /// </summary>
+        public class TickerSelectionChangedEventArgs
+        {
+            /// <summary>
+            /// 銘柄名
+            /// </summary>
+            public string Symbol { get; set; }
+
+            /// <summary>
+            /// 時間ごとの価格
+            /// </summary>
+            public List<float> Prices { get; set; }
+
+            /// <summary>
+            /// 時間ごとの変動率
+            /// </summary>
+            public List<float> Rates { get; set; }
+        }
+
+        /// <summary>
+        /// リストから銘柄を選択したときのイベント
+        /// </summary>
+        public EventHandler<TickerSelectionChangedEventArgs> SelectionChanged;
+
+        /// <summary>
+        /// リストの選択が変更された時のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _listViewTickers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tickerPrices = e.AddedItems[0] as TickerPrices;
+
+            SelectionChanged?.Invoke(this, new TickerSelectionChangedEventArgs()
+            {
+                Symbol = tickerPrices.Symbol,
+                Prices = tickerPrices.Prices,
+                Rates = tickerPrices.Rates
+            });
         }
     }
 }

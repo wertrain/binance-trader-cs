@@ -1,17 +1,10 @@
-﻿using System;
+﻿using BinanceTrader.Localize;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static BinanceTrader.Controls.TickerList;
 
 namespace BinanceTrader
 {
@@ -26,6 +19,8 @@ namespace BinanceTrader
         public MainWindow()
         {
             InitializeComponent();
+
+            _tickerList.SelectionChanged += TickerList_SelectionChanged;
         }
 
         /// <summary>
@@ -57,5 +52,31 @@ namespace BinanceTrader
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e) => Shutdown();
+
+        /// <summary>
+        /// 銘柄リストの選択が変更された時のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TickerList_SelectionChanged(object sender, TickerSelectionChangedEventArgs e)
+        {
+            {
+                var param = new Controls.Chart.ChartParam();
+                param.Title = e.Symbol;
+                param.XS = Enumerable.Range(0, e.Prices.Count).Select(i => (double)i).ToList();
+                param.YSList.Add(e.Prices.Select<float, double>(i => i).ToList());
+                param.Labels.Add("Price");
+                _chartPrices.UpdateChart(param);
+            }
+
+            {
+                var param = new Controls.Chart.ChartParam();
+                param.Title = e.Symbol;
+                param.XS = Enumerable.Range(0, e.Prices.Count).Select(i => (double)i).ToList();
+                param.YSList.Add(e.Rates.Select<float, double>(i => i).ToList());
+                param.Labels.Add("Rate Of Change");
+                _chartRates.UpdateChart(param);
+            }
+        }
     }
 }

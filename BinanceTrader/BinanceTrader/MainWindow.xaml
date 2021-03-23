@@ -8,7 +8,7 @@
         xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
-        Title="{m:Loc Binance Trader}" Height="450" Width="800">
+        Title="{m:Loc Binance Trader}" Height="720" Width="1280">
     <Window.CommandBindings>
         <CommandBinding Command="Close" Executed="CloseCommand" />
     </Window.CommandBindings>
@@ -53,19 +53,34 @@
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Vertical">
                     <xcad:LayoutPanel Orientation="Horizontal">
-                        <xcad:LayoutAnchorablePane DockHeight="*">
+                        <xcad:LayoutAnchorablePane DockWidth="900" DockHeight="*">
                             <!-- 銘柄リストウィンドウ -->
                             <xcad:LayoutAnchorable  x:Name="_layoutAnchorableList" Title="{m:Loc TickerView}" ContentId="TickerView">
                                 <control:TickerList x:Name="_tickerList"/>
                             </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>                        
-                        <xcad:LayoutAnchorablePane DockWidth="180">
-                            <!-- チャートウィンドウ -->
-                            <xcad:LayoutAnchorable Title="{m:Loc Chart}" ContentId="Chart">
-                                <control:Chart/>
-                            </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
+                        
+                        <xcad:LayoutPanel Orientation="Vertical">
+                            <xcad:LayoutPanel Orientation="Horizontal">
+                                <xcad:LayoutAnchorablePane DockWidth="*">
+                                    <!-- チャートウィンドウ -->
+                                    <xcad:LayoutAnchorable Title="{m:Loc Prices Chart}" ContentId="Chart">
+                                        <control:Chart x:Name="_chartPrices"/>
+                                    </xcad:LayoutAnchorable>
+                                </xcad:LayoutAnchorablePane>
+                            </xcad:LayoutPanel>
+                            <xcad:LayoutPanel Orientation="Horizontal">
+                                <xcad:LayoutAnchorablePane DockWidth="*">
+                                    <!-- チャートウィンドウ -->
+                                    <xcad:LayoutAnchorable Title="{m:Loc Rates Chart}" ContentId="Chart">
+                                        <control:Chart x:Name="_chartRates"/>
+                                    </xcad:LayoutAnchorable>
+                                </xcad:LayoutAnchorablePane>
+                            </xcad:LayoutPanel>
+                        </xcad:LayoutPanel>
+                        
                     </xcad:LayoutPanel>
+                    
                     <xcad:LayoutAnchorablePane DockHeight="120">
                         <!-- 出力ウィンドウ -->
                         <xcad:LayoutAnchorable  x:Name="_layoutAnchorableOutput" Title="{m:Loc Output}" ContentId="Output">

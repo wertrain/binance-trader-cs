@@ -4,119 +4,245 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BinanceTrader.Controls"
+             xmlns:converters="clr-namespace:BinanceTrader.Controls"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:PriceToString x:Key="PriceToString" />
+        <converters:RateToString x:Key="RateToString" />
+        <System:Double x:Key="PriceColumnWidth">100</System:Double>
+        <System:Double x:Key="RateColumnWidth">60</System:Double>
+    </UserControl.Resources>
     <Grid>
-        <ListView Name="_listView" ItemsSource="{Binding Path=Prices}">
+        <Grid.Resources>
+            <Style TargetType="ListViewItem">
+                <Style.Triggers>
+                    <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                        <Setter Property="Background" Value="White" />
+                    </Trigger>
+                    <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                        <Setter Property="Background" Value="WhiteSmoke" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <DataTemplate DataType="system:String">
+                <!-- put your data template here -->
+            </DataTemplate>
+        </Grid.Resources>
+        <ListView Name="_listViewTickers" ItemsSource="{Binding Path=Prices}" AlternationCount="2" SelectionChanged="_listViewTickers_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="100"/>
+                    <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="70"/>
 
-                    <GridViewColumn Header="{m:Loc BaseAsset}" Width="60">
+                    <GridViewColumn Header="{m:Loc Base Asset}" Width="50">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding BaseAsset}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc QuoteAsset}" Width="60">
+                    <GridViewColumn Header="{m:Loc Quote Asset}" Width="50">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding QuoteAsset}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    
-                    <GridViewColumn Header="{m:Loc CurrentPrice}" Width="150">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[0]}" Foreground="{Binding PriceColors[0]}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
 
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo01}" Width="150">
+                    <!-- 現在価格 -->
+                    <GridViewColumn Header="{m:Loc Current Price}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[1]}" Foreground="{Binding PriceColors[1]}" />
+                                <TextBlock Text="{Binding Prices[0], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[0]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo02}" Width="150">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[2]}" Foreground="{Binding PriceColors[2]}" />
+                                <TextBlock Text="{Binding Rates[0], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[0]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo03}" Width="150">
+                    <!-- 直前の価格 01 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo01}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[3]}" Foreground="{Binding PriceColors[3]}" />
+                                <TextBlock Text="{Binding Prices[1], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[1]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo04}" Width="150">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[4]}" Foreground="{Binding PriceColors[4]}" />
+                                <TextBlock Text="{Binding Rates[1], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[1]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo05}" Width="150">
+                    <!-- 直前の価格 02 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo02}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[5]}" Foreground="{Binding PriceColors[5]}" />
+                                <TextBlock Text="{Binding Prices[2], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[2]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo06}" Width="150">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[6]}" Foreground="{Binding PriceColors[6]}" />
+                                <TextBlock Text="{Binding Rates[2], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[2]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo07}" Width="150">
+                    <!-- 直前の価格 03 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo03}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[7]}" Foreground="{Binding PriceColors[7]}" />
+                                <TextBlock Text="{Binding Prices[3], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[3]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo08}" Width="150">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[8]}" Foreground="{Binding PriceColors[8]}" />
+                                <TextBlock Text="{Binding Rates[3], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[3]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo09}" Width="150">
+                    <!-- 直前の価格 04 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo04}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[9]}" Foreground="{Binding PriceColors[9]}" />
+                                <TextBlock Text="{Binding Prices[4], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[4]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo10}" Width="150">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[10]}" Foreground="{Binding PriceColors[10]}" />
+                                <TextBlock Text="{Binding Rates[4], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[4]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo11}" Width="150">
+                    <!-- 直前の価格 05 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo05}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[11]}" Foreground="{Binding PriceColors[11]}" />
+                                <TextBlock Text="{Binding Prices[5], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[5]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo12}" Width="150">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PricesWithRateChange[12]}" Foreground="{Binding PriceColors[12]}" />
+                                <TextBlock Text="{Binding Rates[5], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[5]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!-- 直前の価格 06 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo06}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prices[6], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[6]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rates[6], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[6]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!-- 直前の価格 07 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo07}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prices[7], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[7]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rates[7], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[7]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!-- 直前の価格 08 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo08}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prices[8], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[8]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rates[8], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[8]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!-- 直前の価格 09 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo09}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prices[9], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[9]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rates[0], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[0]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!-- 直前の価格 10 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo10}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prices[10], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[10]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rates[10], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[10]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!-- 直前の価格 11 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo11}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prices[11], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[11]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rates[11], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[11]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!-- 直前の価格 12 -->
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo12}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Prices[12], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[12]}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Rates[12], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[12]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

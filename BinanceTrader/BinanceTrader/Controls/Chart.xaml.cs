@@ -1,4 +1,5 @@
-﻿using ScottPlot;
+﻿using BinanceTrader.Localize;
+using ScottPlot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,33 @@ namespace BinanceTrader.Controls
     /// </summary>
     public partial class Chart : UserControl
     {
+        /// <summary>
+        /// チャート更新パラメータ
+        /// </summary>
+        public class ChartParam
+        {
+            public string Title { get; set; }
+
+            public List<double> XS { get; set; } = new List<double>();
+
+            public List<List<double>> YSList { get; set; } = new List<List<double>>();
+
+            public List<string> Labels { get; set; } = new List<string>();
+
+            public string YLabel { get; set; }
+            public string XLabel { get; set; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly string ChartDefaultFontName = "Yu Gothic UI";
+
         public Chart()
         {
             InitializeComponent();
 
+            /*
             Random rand = new Random(0);
             var xs = Enumerable.Range(0, 100).Select(i => (double)i).ToArray();
             var ys1 = DataGen.RandomWalk(rand, 100);
@@ -67,12 +91,26 @@ namespace BinanceTrader.Controls
             //グラフ表示の上限下限を設定
             _chart.plt.AxisBounds(minX: 5, maxX: 80, minY: double.NegativeInfinity, maxY: double.PositiveInfinity);
 
-            _chart.Render();
+            _chart.Render();*/
         }
 
-        public void UpdateChart()
+        public void UpdateChart(ChartParam param)
         {
+            _chart.plt.Title(param.Title, fontName: ChartDefaultFontName);
 
+            _chart.plt.Clear();
+
+            foreach (var (y, index) in param.YSList.Select((item, index) => (item, index)))
+            {
+                _chart.plt.PlotScatter(param.XS.ToArray(), y.ToArray(), label: param.Labels[index], lineStyle: LineStyle.DashDot, lineWidth: 2.0);
+            }
+
+            _chart.plt.YLabel(param.YLabel, fontName: ChartDefaultFontName, fontSize: 14);
+            _chart.plt.XLabel(param.XLabel, fontName: ChartDefaultFontName, fontSize: 14);
+
+            _chart.plt.Grid(xSpacing: 5, lineStyle: LineStyle.Dot, color: System.Drawing.Color.LightGray, lineWidth: 2);
+
+            _chart.Render();
         }
     }
 }
