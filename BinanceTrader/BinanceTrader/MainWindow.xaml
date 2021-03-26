@@ -53,12 +53,12 @@
             <xcad:LayoutRoot>
                 <xcad:LayoutPanel Orientation="Vertical">
                     <xcad:LayoutPanel Orientation="Horizontal">
-                        <xcad:LayoutAnchorablePane DockWidth="900" DockHeight="*">
+                        <xcad:LayoutDocumentPane DockWidth="*" DockHeight="*">
                             <!-- 銘柄リストウィンドウ -->
                             <xcad:LayoutAnchorable  x:Name="_layoutAnchorableList" Title="{m:Loc TickerView}" ContentId="TickerView">
                                 <control:TickerList x:Name="_tickerList"/>
                             </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorablePane>
+                        </xcad:LayoutDocumentPane>
                         
                         <xcad:LayoutPanel Orientation="Vertical">
                             <xcad:LayoutPanel Orientation="Horizontal">

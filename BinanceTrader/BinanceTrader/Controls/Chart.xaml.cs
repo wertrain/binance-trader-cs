@@ -88,15 +88,21 @@ namespace BinanceTrader.Controls
 
             _chart.plt.Clear();
 
+            _chart.plt.Style(figBg: System.Drawing.Color.FromArgb(12, 12, 12));
+            _chart.plt.Style(dataBg: System.Drawing.Color.FromArgb(44, 44, 44));
+            _chart.plt.Style(label: System.Drawing.Color.FromArgb(255, 255, 255));
+            _chart.plt.Style(title: System.Drawing.Color.FromArgb(255, 255, 255));
+            _chart.plt.Style(tick: System.Drawing.Color.FromArgb(255, 255, 255));
+
             foreach (var (y, index) in param.YSList.Select((item, index) => (item, index)))
             {
-                _chart.plt.PlotScatter(param.XS.ToArray(), y.ToArray(), label: param.Labels[index], lineStyle: LineStyle.DashDot, lineWidth: 2.0);
+                _chart.plt.PlotScatter(param.XS.ToArray(), y.ToArray(), label: param.Labels[index], lineStyle: LineStyle.Solid, lineWidth: 3.0);
             }
 
             _chart.plt.YLabel(param.YLabel, fontName: ChartDefaultFontName, fontSize: 14);
             _chart.plt.XLabel(param.XLabel, fontName: ChartDefaultFontName, fontSize: 14);
 
-            _chart.plt.Grid(xSpacing: 5, lineStyle: LineStyle.Dot, color: System.Drawing.Color.LightGray, lineWidth: 2);
+            _chart.plt.Grid(xSpacing: 5, lineStyle: LineStyle.Solid, color: System.Drawing.Color.LightGray, lineWidth: 1);
 
             _chart.Render();
         }
