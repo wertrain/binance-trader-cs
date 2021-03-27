@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BinanceTrader.Controls"
              xmlns:converters="clr-namespace:BinanceTrader.Controls"
+             xmlns:util="clr-namespace:BinanceTrader.Controls"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
@@ -31,19 +32,23 @@
                 <!-- put your data template here -->
             </DataTemplate>
         </Grid.Resources>
-        <ListView Name="_listViewTickers" ItemsSource="{Binding Path=Prices}" AlternationCount="2" SelectionChanged="_listViewTickers_SelectionChanged">
+        <ListView Name="_listViewTickers" ItemsSource="{Binding Path=Prices}"
+                  AlternationCount="2" 
+                  SelectionChanged="_listViewTickers_SelectionChanged"
+                  IsSynchronizedWithCurrentItem="True"
+                  util:GridViewSort.AutoSort="True">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="70"/>
+                    <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="70" util:GridViewSort.PropertyName="Symbol"/>
 
-                    <GridViewColumn Header="{m:Loc Base Asset}" Width="50">
+                    <GridViewColumn Header="{m:Loc Base Asset}" Width="50" util:GridViewSort.PropertyName="BaseAsset">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding BaseAsset}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Quote Asset}" Width="50">
+                    <GridViewColumn Header="{m:Loc Quote Asset}" Width="50" util:GridViewSort.PropertyName="QuoteAsset">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding QuoteAsset}" />
@@ -52,14 +57,14 @@
                     </GridViewColumn>
 
                     <!-- 現在価格 -->
-                    <GridViewColumn Header="{m:Loc Current Price}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Current Price}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[0]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[0], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[0]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[0]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[0], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[0]}" />
@@ -67,14 +72,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 01 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo01}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo01}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[1]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[1], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[1]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[1]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[1], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[1]}" />
@@ -82,14 +87,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 02 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo02}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo02}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[2]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[2], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[2]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[2]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[2], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[2]}" />
@@ -97,14 +102,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 03 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo03}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo03}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[3]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[3], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[3]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[3]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[3], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[3]}" />
@@ -112,14 +117,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 04 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo04}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo04}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[4]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[4], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[4]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[4]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[4], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[4]}" />
@@ -127,14 +132,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 05 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo05}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo05}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[5]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[5], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[5]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[5]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[5], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[5]}" />
@@ -142,14 +147,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 06 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo06}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo06}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[6]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[6], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[6]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[6]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[6], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[6]}" />
@@ -157,14 +162,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 07 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo07}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo07}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[7]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[7], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[7]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[7]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[7], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[7]}" />
@@ -172,14 +177,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 08 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo08}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo08}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[8]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[8], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[8]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[8]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[8], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[8]}" />
@@ -187,14 +192,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 09 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo09}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo09}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[9]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[9], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[9]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[9]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[0], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[0]}" />
@@ -202,14 +207,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 10 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo10}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo10}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[10]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[10], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[10]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[10]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[10], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[10]}" />
@@ -217,14 +222,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 11 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo11}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo11}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[11]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[11], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[11]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[11]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[11], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[11]}" />
@@ -232,14 +237,14 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <!-- 直前の価格 12 -->
-                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo12}" Width="{Binding Source={StaticResource PriceColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc PriceSomeTimeAgo12}" Width="{Binding Source={StaticResource PriceColumnWidth}}" util:GridViewSort.PropertyName="Prices[12]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Prices[12], Converter={StaticResource PriceToString}}" Foreground="{Binding PriceColors[12]}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}">
+                    <GridViewColumn Header="{m:Loc Rate Of Change}" Width="{Binding Source={StaticResource RateColumnWidth}}" util:GridViewSort.PropertyName="Rates[12]">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Rates[12], Converter={StaticResource RateToString}}" Foreground="{Binding PriceColors[12]}" />
