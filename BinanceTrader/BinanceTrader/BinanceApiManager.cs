@@ -125,6 +125,33 @@ namespace BinanceTrader
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public BinanceApiResponse<System.Dynamic.ExpandoObject> GetExchangeInfo()
+        {
+            string cacheKey = "GetExchangeInfo";
+
+            if (Cached.ContainsKey(cacheKey))
+            {
+                var cache = Cached[cacheKey];
+                var cachedDate = cache.Date;
+                var span = DateTime.Now - cachedDate;
+
+                if (span.Seconds < 60 * 60)
+                {
+                    return new BinanceApiResponse<System.Dynamic.ExpandoObject>(cache.Data);
+                }
+            }
+
+            var data = Client.GetExchangeInfo();
+
+            Cached[cacheKey] = new CachedData(DateTime.Now, data);
+
+            return new BinanceApiResponse<System.Dynamic.ExpandoObject>(data);
+        }
+
+        /// <summary>
         /// キャッシュデータ
         /// </summary>
         private Dictionary<string, CachedData> Cached;

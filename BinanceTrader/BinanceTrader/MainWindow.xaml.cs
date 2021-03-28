@@ -42,6 +42,48 @@ namespace BinanceTrader
         }
 
         /// <summary>
+        /// ウィンドウが開くときのイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach(var info in Settings.Instance.VirtualPurchases)
+            {
+                _virtualPurchases.AddPurchaseInfo(new VirtualPurchaseList.PurchaseInfo()
+                {
+                    Symbol = info.Symbol,
+                    BaseAsset = info.BaseAsset,
+                    QuoteAsset = info.QuoteAsset,
+                    PurchaseDate = info.PurchaseDate,
+                    PurchasePrice = info.PurchasePrice
+                });
+            }
+        }
+
+        /// <summary>
+        /// ウィンドウが閉じるときのイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Settings.Instance.VirtualPurchases.Clear();
+            foreach (var info in _virtualPurchases.Purchases)
+            {
+                Settings.Instance.VirtualPurchases.Add(new Settings.VirtualPurchaseInfo()
+                {
+                    Symbol = info.Symbol,
+                    BaseAsset = info.BaseAsset,
+                    QuoteAsset = info.QuoteAsset,
+                    PurchaseDate = info.PurchaseDate,
+                    PurchasePrice = info.PurchasePrice
+                });
+            }
+            Settings.Instance.Save();
+        }
+
+        /// <summary>
         /// アプリケーションの終了
         /// </summary>
         private void Shutdown()

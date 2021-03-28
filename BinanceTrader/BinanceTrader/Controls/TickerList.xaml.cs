@@ -25,7 +25,7 @@ namespace BinanceTrader.Controls
     /// </summary>
     class LocalConstants
     {
-        public static readonly bool UseDummyData = true;
+        public static readonly bool UseDummyData = false;
     }
 
     /// <summary>

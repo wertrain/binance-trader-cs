@@ -8,7 +8,9 @@
         xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
-        Title="{m:Loc Binance Trader}" Height="720" Width="1280">
+        Title="{m:Loc Binance Trader}" Height="720" Width="1280"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
     <Window.CommandBindings>
         <CommandBinding Command="Close" Executed="CloseCommand" />
     </Window.CommandBindings>
@@ -81,7 +83,7 @@
                         
                     </xcad:LayoutPanel>
                     
-                    <xcad:LayoutAnchorablePane DockHeight="120">
+                    <xcad:LayoutAnchorablePane DockHeight="80">
                         <!-- 出力ウィンドウ -->
                         <xcad:LayoutAnchorable  x:Name="_layoutAnchorableOutput" Title="{m:Loc Output}" ContentId="Output">
                             <TextBox />

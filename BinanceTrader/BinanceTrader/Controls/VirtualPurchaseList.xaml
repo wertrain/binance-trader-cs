@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:BinanceTrader.Controls"
              xmlns:converters="clr-namespace:BinanceTrader.Controls.Converters"
              xmlns:util="clr-namespace:BinanceTrader.Controls.Utilitys"
+             xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:PriceToString x:Key="PriceToString" />
@@ -25,9 +26,9 @@
                     <GridViewColumn Header="{m:Loc Quote Asset}" DisplayMemberBinding="{Binding QuoteAsset}" Width="50" util:GridViewSort.PropertyName="QuoteAsset"/>
                     <GridViewColumn Header="{m:Loc Purchase Price}" DisplayMemberBinding="{Binding PurchasePrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="PurchasePrice"/>
                     <GridViewColumn Header="{m:Loc Current Price}" DisplayMemberBinding="{Binding CurrentPrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="CurrentPrice"/>
-                    <GridViewColumn Header="{m:Loc Purchase Date}" DisplayMemberBinding="{Binding PurchaseDate, StringFormat=d}" Width="80" util:GridViewSort.PropertyName="PurchaseDate"/>
-                    <GridViewColumn Header="{m:Loc Profit And Loss Price}" DisplayMemberBinding="{Binding ProfitAndLossPrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="PurchasePrice"/>
-                    <GridViewColumn Header="{m:Loc Profit And Loss Rate}" DisplayMemberBinding="{Binding ProfitAndLossRate, Converter={StaticResource RateToString}}" Width="80" util:GridViewSort.PropertyName="PurchaseDate"/>
+                    <GridViewColumn Header="{m:Loc Purchase Date}" DisplayMemberBinding="{Binding PurchaseDate, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Width="120" util:GridViewSort.PropertyName="PurchaseDate"/>
+                    <GridViewColumn Header="{m:Loc Profit And Loss Price}" DisplayMemberBinding="{Binding ProfitAndLossPrice, Converter={StaticResource PriceToString}}" Width="100" util:GridViewSort.PropertyName="PurchasePrice"/>
+                    <GridViewColumn Header="{m:Loc Profit And Loss Rate}" DisplayMemberBinding="{Binding ProfitAndLossRate, Converter={StaticResource RateToString}}" Width="60" util:GridViewSort.PropertyName="PurchaseDate"/>
                 </GridView>
             </ListView.View>
         </ListView>

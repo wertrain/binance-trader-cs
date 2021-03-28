@@ -11,26 +11,63 @@ namespace BinanceTrader
     public class Settings
     {
         /// <summary>
-        /// 
+        /// 個人 API の URL
         /// </summary>
         public string PrivateApiUrl { get; set; }
 
         /// <summary>
-        /// 
+        /// Binance API のキー
         /// </summary>
         public string BinanceApiKey { get; set; }
 
         /// <summary>
-        /// 
+        /// Binance API のシークレットキー
         /// </summary>
         public string BinanceSecretKey { get; set; }
+
+        /// <summary>
+        /// 仮想購入
+        /// </summary>
+        public class VirtualPurchaseInfo
+        {
+            /// <summary>
+            /// 銘柄名
+            /// </summary>
+            public string Symbol { get; set; }
+
+            /// <summary>
+            /// コイン名
+            /// </summary>
+            public string BaseAsset { get; set; }
+
+            /// <summary>
+            /// 値付けコイン名
+            /// </summary>
+            public string QuoteAsset { get; set; }
+
+            /// <summary>
+            /// 購入価格
+            /// </summary>
+            public float PurchasePrice { get; set; }
+
+            /// <summary>
+            /// 購入日
+            /// </summary>
+            public DateTime PurchaseDate { get; set; }
+        }
+
+        /// <summary>
+        /// 仮想購入情報
+        /// </summary>
+        public List<VirtualPurchaseInfo> VirtualPurchases;
+
 
         /// <summary>
         /// 
         /// </summary>
         private Settings()
         {
-
+            VirtualPurchases = new List<VirtualPurchaseInfo>();
         }
 
         /// <summary>
@@ -44,6 +81,7 @@ namespace BinanceTrader
                 PrivateApiUrl = string.Empty,
                 BinanceApiKey = string.Empty,
                 BinanceSecretKey = string.Empty,
+                VirtualPurchases = new List<VirtualPurchaseInfo>()
             };
         }
 
@@ -71,6 +109,8 @@ namespace BinanceTrader
                     PrivateApiUrl = settings.PrivateApiUrl;
                     BinanceApiKey = settings.BinanceApiKey;
                     BinanceSecretKey = settings.BinanceSecretKey;
+                    VirtualPurchases = settings.VirtualPurchases;
+                    return this;
                 }
             }
             catch (Exception)
