@@ -132,12 +132,21 @@
     <Compile Include="Controls\Chart.xaml.cs">
       <DependentUpon>Chart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Converters\Converters.cs" />
+    <Compile Include="Controls\Utilitys\Utilitys.cs" />
+    <Compile Include="Controls\VirtualPurchaseList.xaml.cs">
+      <DependentUpon>VirtualPurchaseList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Page Include="Controls\Chart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TickerList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VirtualPurchaseList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

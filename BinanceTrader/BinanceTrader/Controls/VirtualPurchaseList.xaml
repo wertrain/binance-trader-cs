@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="BinanceTrader.Controls.VirtualPurchaseList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
+             xmlns:local="clr-namespace:BinanceTrader.Controls"
+             xmlns:converters="clr-namespace:BinanceTrader.Controls.Converters"
+             xmlns:util="clr-namespace:BinanceTrader.Controls.Utilitys"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:PriceToString x:Key="PriceToString" />
+        <converters:RateToString x:Key="RateToString" />
+    </UserControl.Resources>
+    <Grid>
+        <ListView Name="_listViewPurchases" ItemsSource="{Binding Path=Purchases}"
+                  AlternationCount="2" 
+                  SelectionChanged="listViewPurchases_SelectionChanged"
+                  IsSynchronizedWithCurrentItem="True">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="70" util:GridViewSort.PropertyName="Symbol"/>
+                    <GridViewColumn Header="{m:Loc Base Asset}" DisplayMemberBinding="{Binding BaseAsset}" Width="50" util:GridViewSort.PropertyName="BaseAsset"/>
+                    <GridViewColumn Header="{m:Loc Quote Asset}" DisplayMemberBinding="{Binding QuoteAsset}" Width="50" util:GridViewSort.PropertyName="QuoteAsset"/>
+                    <GridViewColumn Header="{m:Loc Purchase Price}" DisplayMemberBinding="{Binding PurchasePrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="PurchasePrice"/>
+                    <GridViewColumn Header="{m:Loc Current Price}" DisplayMemberBinding="{Binding CurrentPrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="CurrentPrice"/>
+                    <GridViewColumn Header="{m:Loc Purchase Date}" DisplayMemberBinding="{Binding PurchaseDate, StringFormat=d}" Width="80" util:GridViewSort.PropertyName="PurchaseDate"/>
+                    <GridViewColumn Header="{m:Loc Profit And Loss Price}" DisplayMemberBinding="{Binding ProfitAndLossPrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="PurchasePrice"/>
+                    <GridViewColumn Header="{m:Loc Profit And Loss Rate}" DisplayMemberBinding="{Binding ProfitAndLossRate, Converter={StaticResource RateToString}}" Width="80" util:GridViewSort.PropertyName="PurchaseDate"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

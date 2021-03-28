@@ -29,4 +29,11 @@
   <StringItem id="PriceSomeTimeAgo11" context="" translation="価格 (18時間前)" />
   <StringItem id="PriceSomeTimeAgo12" context="" translation="価格 (24時間前)" />
   <StringItem id="Rate Of Change" context="" translation="上昇率" />
+
+  <StringItem id="Virtual Purchases" context="" translation="仮想購入" />
+  <StringItem id="Purchase Price" context="" translation="購入価格" />
+  <StringItem id="Purchase Date" context="" translation="購入日時" />
+  <StringItem id="Profit And Loss Price" context="" translation="損益" />
+  <StringItem id="Profit And Loss Rate" context="" translation="損益率" />
+  
 </StringLocalizationTable>

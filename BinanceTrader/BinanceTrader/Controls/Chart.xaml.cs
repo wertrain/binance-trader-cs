@@ -88,11 +88,11 @@ namespace BinanceTrader.Controls
 
             _chart.plt.Clear();
 
-            _chart.plt.Style(figBg: System.Drawing.Color.FromArgb(12, 12, 12));
-            _chart.plt.Style(dataBg: System.Drawing.Color.FromArgb(44, 44, 44));
-            _chart.plt.Style(label: System.Drawing.Color.FromArgb(255, 255, 255));
-            _chart.plt.Style(title: System.Drawing.Color.FromArgb(255, 255, 255));
-            _chart.plt.Style(tick: System.Drawing.Color.FromArgb(255, 255, 255));
+            //_chart.plt.Style(figBg: System.Drawing.Color.FromArgb(12, 12, 12));
+            //_chart.plt.Style(dataBg: System.Drawing.Color.FromArgb(44, 44, 44));
+            //_chart.plt.Style(label: System.Drawing.Color.FromArgb(255, 255, 255));
+            //_chart.plt.Style(title: System.Drawing.Color.FromArgb(255, 255, 255));
+            //_chart.plt.Style(tick: System.Drawing.Color.FromArgb(255, 255, 255));
 
             foreach (var (y, index) in param.YSList.Select((item, index) => (item, index)))
             {

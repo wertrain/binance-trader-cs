@@ -1,4 +1,6 @@
-﻿using BinanceTrader.Localize;
+﻿using BinanceTrader.Controls;
+using BinanceTrader.Localize;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -21,6 +23,7 @@ namespace BinanceTrader
             InitializeComponent();
 
             _tickerList.SelectionChanged += TickerList_SelectionChanged;
+            _tickerList.OnSelectVirtualPurchase += TickerList_OnSelectVirtualPurchase;
         }
 
         /// <summary>
@@ -60,14 +63,15 @@ namespace BinanceTrader
         /// <param name="e"></param>
         private void TickerList_SelectionChanged(object sender, TickerSelectionChangedEventArgs e)
         {
-            {
-                var param = new Controls.Chart.ChartParam();
-                param.Title = e.Symbol;
-                param.XS = Enumerable.Range(0, e.Prices.Count).Select(i => (double)i).ToList();
-                param.YSList.Add(e.Prices.Select<float, double>(i => i).ToList());
-                param.Labels.Add("Price");
-                _chartPrices.UpdateChart(param);
-            }
+
+            //{
+            //    var param = new Controls.Chart.ChartParam();
+            //    param.Title = e.Symbol;
+            //    param.XS = Enumerable.Range(0, e.Prices.Count).Select(i => (double)i).ToList();
+            //    param.YSList.Add(e.Prices.Select<float, double>(i => i).ToList());
+            //    param.Labels.Add("Price");
+            //    _chartPrices.UpdateChart(param);
+            //}
 
             {
                 var param = new Controls.Chart.ChartParam();
@@ -77,6 +81,23 @@ namespace BinanceTrader
                 param.Labels.Add("Rate Of Change");
                 _chartRates.UpdateChart(param);
             }
+        }
+
+        /// <summary>
+        /// 仮想購入が選択された時のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TickerList_OnSelectVirtualPurchase(object sender, VirtualPurchaseEventArgs e)
+        {
+            _virtualPurchases.AddPurchaseInfo(new VirtualPurchaseList.PurchaseInfo()
+            {
+                Symbol = e.Symbol,
+                BaseAsset = e.BaseAsset,
+                QuoteAsset = e.QuoteAsset,
+                PurchasePrice = e.Price,
+                CurrentPrice = e.Price,
+            });
         }
     }
 }

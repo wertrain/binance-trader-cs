@@ -63,9 +63,9 @@
                         <xcad:LayoutPanel Orientation="Vertical">
                             <xcad:LayoutPanel Orientation="Horizontal">
                                 <xcad:LayoutAnchorablePane DockWidth="*">
-                                    <!-- チャートウィンドウ -->
-                                    <xcad:LayoutAnchorable Title="{m:Loc Prices Chart}" ContentId="Chart">
-                                        <control:Chart x:Name="_chartPrices"/>
+                                    <!-- 仮想購入ウィンドウ -->
+                                    <xcad:LayoutAnchorable Title="{m:Loc Virtual Purchases}" ContentId="Virtual Purchases">
+                                        <control:VirtualPurchaseList x:Name="_virtualPurchases"/>
                                     </xcad:LayoutAnchorable>
                                 </xcad:LayoutAnchorablePane>
                             </xcad:LayoutPanel>
