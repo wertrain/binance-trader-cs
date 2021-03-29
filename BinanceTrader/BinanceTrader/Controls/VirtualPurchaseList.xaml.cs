@@ -110,7 +110,7 @@ namespace BinanceTrader.Controls
                 {
                     purchase.CurrentPrice = price;
                     purchase.ProfitAndLossPrice = purchase.CurrentPrice - purchase.PurchasePrice;
-                    purchase.ProfitAndLossRate = purchase.PurchasePrice % (purchase.PurchasePrice - purchase.ProfitAndLossPrice);
+                    purchase.ProfitAndLossRate = purchase.ProfitAndLossPrice / purchase.PurchasePrice;
                 }
             }
         }
@@ -133,7 +133,32 @@ namespace BinanceTrader.Controls
         /// <param name="e"></param>
         private void listViewPurchases_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            foreach(PurchaseInfo info in e.AddedItems)
+            {
+                SelectionChanged?.Invoke(this, new VirtualPurchaseSelectionChangedEventArgs(info.Symbol));
+            }
         }
+
+        /// <summary>
+        /// 仮想購入が選択されたときのイベント引数
+        /// </summary>
+        public class VirtualPurchaseSelectionChangedEventArgs
+        {
+            /// <summary>
+            /// 銘柄名
+            /// </summary>
+            public string Symbol { get; set; }
+
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
+            /// <param name="symbol"></param>
+            public VirtualPurchaseSelectionChangedEventArgs(string symbol) => Symbol = symbol;
+        }
+
+        /// <summary>
+        /// リストから銘柄を選択したときのイベント
+        /// </summary>
+        public EventHandler<VirtualPurchaseSelectionChangedEventArgs> SelectionChanged;
     }
 }

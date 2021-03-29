@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace BinanceTrader.Controls.Converters
 {
@@ -57,6 +59,35 @@ namespace BinanceTrader.Controls.Converters
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return float.Parse(value as string);
+        }
+    }
+
+    /// <summary>
+    /// 損益数値からカラーに変換するコンバーター
+    /// </summary>
+    public class ColorOfProfitAndLoss : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var floatValue = (float)value;
+
+            if (floatValue == 0)
+            {
+                return new SolidColorBrush(Colors.DarkSlateGray);
+            }
+            else if (floatValue > 0.0)
+            {
+                return new SolidColorBrush(Colors.BlueViolet);
+            }
+            else
+            {
+                return new SolidColorBrush(Colors.OrangeRed);
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 

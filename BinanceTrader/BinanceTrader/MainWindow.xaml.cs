@@ -24,6 +24,7 @@ namespace BinanceTrader
 
             _tickerList.SelectionChanged += TickerList_SelectionChanged;
             _tickerList.OnSelectVirtualPurchase += TickerList_OnSelectVirtualPurchase;
+            _virtualPurchases.SelectionChanged += VirtualPurchases_SelectionChanged;
         }
 
         /// <summary>
@@ -140,6 +141,16 @@ namespace BinanceTrader
                 PurchasePrice = e.Price,
                 CurrentPrice = e.Price,
             });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VirtualPurchases_SelectionChanged(object sender, VirtualPurchaseList.VirtualPurchaseSelectionChangedEventArgs e)
+        {
+            _tickerList.SelectSymbol(e.Symbol);
         }
     }
 }

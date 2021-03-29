@@ -13,6 +13,7 @@
     <UserControl.Resources>
         <converters:PriceToString x:Key="PriceToString" />
         <converters:RateToString x:Key="RateToString" />
+        <converters:ColorOfProfitAndLoss x:Key="ColorOfProfitAndLoss" />
     </UserControl.Resources>
     <Grid>
         <ListView Name="_listViewPurchases" ItemsSource="{Binding Path=Purchases}"
@@ -27,8 +28,20 @@
                     <GridViewColumn Header="{m:Loc Purchase Price}" DisplayMemberBinding="{Binding PurchasePrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="PurchasePrice"/>
                     <GridViewColumn Header="{m:Loc Current Price}" DisplayMemberBinding="{Binding CurrentPrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="CurrentPrice"/>
                     <GridViewColumn Header="{m:Loc Purchase Date}" DisplayMemberBinding="{Binding PurchaseDate, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Width="120" util:GridViewSort.PropertyName="PurchaseDate"/>
-                    <GridViewColumn Header="{m:Loc Profit And Loss Price}" DisplayMemberBinding="{Binding ProfitAndLossPrice, Converter={StaticResource PriceToString}}" Width="100" util:GridViewSort.PropertyName="PurchasePrice"/>
-                    <GridViewColumn Header="{m:Loc Profit And Loss Rate}" DisplayMemberBinding="{Binding ProfitAndLossRate, Converter={StaticResource RateToString}}" Width="60" util:GridViewSort.PropertyName="PurchaseDate"/>
+                    <GridViewColumn Header="{m:Loc Profit And Loss Price}" Width="100" util:GridViewSort.PropertyName="PurchasePrice">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ProfitAndLossPrice, Converter={StaticResource PriceToString}}" Foreground="{Binding ProfitAndLossPrice, Converter={StaticResource ColorOfProfitAndLoss}}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Profit And Loss Rate}" Width="60" util:GridViewSort.PropertyName="PurchaseDate">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ProfitAndLossRate, Converter={StaticResource RateToString}}" Foreground="{Binding ProfitAndLossRate, Converter={StaticResource ColorOfProfitAndLoss}}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

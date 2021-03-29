@@ -75,18 +75,12 @@ namespace BinanceTrader.Controls
             public List<float> Rates { get; set; }
 
             /// <summary>
-            /// 描画色
-            /// </summary>
-            public List<Brush> PriceColors { get; set; }
-
-            /// <summary>
             /// コンストラクタ
             /// </summary>
             public TickerPrices()
             {
                 Prices = new List<float>();
                 Rates = new List<float>();
-                PriceColors = new List<Brush>();
             }
         }
 
@@ -216,6 +210,25 @@ namespace BinanceTrader.Controls
         }
 
         /// <summary>
+        /// シンボルを選択
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        public bool SelectSymbol(string symbol)
+        {
+            foreach (TickerPrices item in _listViewTickers.Items)
+            {
+                if (item.Symbol == symbol)
+                {
+                   var index =  _listViewTickers.Items.IndexOf(item);
+                    _listViewTickers.SelectedIndex = index;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// サーバーから過去の価格情報をダウンロード
         /// </summary>
         /// <returns></returns>
@@ -314,7 +327,6 @@ namespace BinanceTrader.Controls
             foreach (var pair in priceMap)
             {
                 var rates = new List<float>();
-                var priceColors = new List<Brush>();
 
                 // 末尾（現在は24時間前の情報）との比較でパーセンテージを表示
                 var target = pair.Value.LastOrDefault();
@@ -324,23 +336,9 @@ namespace BinanceTrader.Controls
                     //var target = pair.Value[i + 1];
                     var percent = ((current - target) / target);
                     rates.Add(percent);
-
-                    if (percent == 0)
-                    {
-                        priceColors.Add(Brushes.DarkSlateGray);
-                    }
-                    else if (percent > 0.0)
-                    {
-                        priceColors.Add(Brushes.BlueViolet);
-                    }
-                    else
-                    {
-                        priceColors.Add(Brushes.OrangeRed);
-                    }
                 }
                 // なので末尾は比較対象がない
                 {
-                    priceColors.Add(Brushes.DarkSlateGray);
                     rates.Add(0);
                 }
 
@@ -358,8 +356,7 @@ namespace BinanceTrader.Controls
                     BaseAsset = baseAsset,
                     QuoteAsset = quoteAsset,
                     Prices = pair.Value,
-                    Rates = rates,
-                    PriceColors = priceColors
+                    Rates = rates
                 });
             }
         }
