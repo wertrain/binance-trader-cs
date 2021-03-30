@@ -36,4 +36,6 @@
   <StringItem id="Profit And Loss Price" context="" translation="損益" />
   <StringItem id="Profit And Loss Rate" context="" translation="損益率" />
   
+  <StringItem id="Remove From List" context="" translation="リストから削除" />
+  
 </StringLocalizationTable>

@@ -132,6 +132,7 @@
     <Compile Include="Controls\Chart.xaml.cs">
       <DependentUpon>Chart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Common\ContextMenuCommand.cs" />
     <Compile Include="Controls\Converters\Converters.cs" />
     <Compile Include="Controls\Utilitys\Utilitys.cs" />
     <Compile Include="Controls\VirtualPurchaseList.xaml.cs">

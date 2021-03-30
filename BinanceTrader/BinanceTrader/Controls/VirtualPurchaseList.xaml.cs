@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BinanceTrader.Controls.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -90,6 +91,8 @@ namespace BinanceTrader.Controls
 
             Purchases = new ObservableCollection<PurchaseInfo>();
 
+            RemoveVirtualPurchaseCommand = new ContextMenuCommand<PurchaseInfo>(selectRemoveFromList);
+
             _listViewPurchases.DataContext = this;
             _listViewPurchases.ItemsSource = Purchases;
         }
@@ -140,6 +143,18 @@ namespace BinanceTrader.Controls
         }
 
         /// <summary>
+        /// リストから削除が選択された時のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void selectRemoveFromList(PurchaseInfo item)
+        {
+            Purchases.Remove(item);
+        }
+
+        #region イベント関連
+
+        /// <summary>
         /// 仮想購入が選択されたときのイベント引数
         /// </summary>
         public class VirtualPurchaseSelectionChangedEventArgs
@@ -160,5 +175,16 @@ namespace BinanceTrader.Controls
         /// リストから銘柄を選択したときのイベント
         /// </summary>
         public EventHandler<VirtualPurchaseSelectionChangedEventArgs> SelectionChanged;
+
+        #endregion
+
+        #region コマンド関連
+
+        /// <summary>
+        /// リストアイテム選択時のコマンド
+        /// </summary>
+        public ContextMenuCommand<PurchaseInfo> RemoveVirtualPurchaseCommand { get; set; }
+
+        #endregion
     }
 }
