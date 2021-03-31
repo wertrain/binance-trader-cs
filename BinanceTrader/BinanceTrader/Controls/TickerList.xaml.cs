@@ -1,21 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Net;
-using System.IO;
 using System.Collections.ObjectModel;
 using BinanceTrader.Controls.Common;
 
@@ -34,17 +21,6 @@ namespace BinanceTrader.Controls
     /// </summary>
     public partial class TickerList : UserControl
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        private class JsonPricePair
-        {
-            [JsonPropertyName("symbol")]
-            public string Symbol { get; set; }
-            [JsonPropertyName("price")]
-            public string Price { get; set; }
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -145,11 +121,8 @@ namespace BinanceTrader.Controls
         /// </summary>
         public void UpdateSymbols()
         {
-            var exchangeInfo = LocalConstants.UseDummyData ? 
-                readDummyExchangeInfo() : 
-                BinanceApiManager.Instance.Client.GetExchangeInfo();
-            if (string.IsNullOrEmpty(exchangeInfo)) return;
-            dynamic jsonExchangeInfo = JsonSerializer.Deserialize<System.Dynamic.ExpandoObject>(exchangeInfo);
+            var response = TraderApiManager.Instance.Cache.GetExchangeInfo();
+            dynamic jsonExchangeInfo = response.ToObject();
 
             var symbols = ((IDictionary<string, object>)jsonExchangeInfo)["symbols"];
             foreach (var value in ((JsonElement)symbols).EnumerateArray())
@@ -177,34 +150,18 @@ namespace BinanceTrader.Controls
         /// </summary>
         public void UpdateTickers()
         {
-            var jsonPricesList = new List<List<JsonPricePair>>();
+            var jsonPricesList = new List<List<PricePair>>();
 
             // 現在の価格を Binance API を使用して取得
             {
-                var jsonString = LocalConstants.UseDummyData ?
-                    readDummyPrice() :
-                    BinanceApiManager.Instance.Cache.GetAllTickers().Raw;
-                if (string.IsNullOrEmpty(jsonString)) return;
-                var jsonPrices = JsonSerializer.Deserialize<List<JsonPricePair>>(jsonString, new JsonSerializerOptions
-                {
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
-                jsonPricesList.Add(jsonPrices);
+                var response = TraderApiManager.Instance.Cache.GetAllTickers();
+                jsonPricesList.Add(response.ToObject());
             }
 
             // 過去の価格をサーバーから取得
-            var jsonPrice = LocalConstants.UseDummyData ?
-                readDummyPrices():
-                downloadJsonPrices();
-            if (string.IsNullOrEmpty(jsonPrice)) return;
-            var jsonStrings = jsonPrice.Split('\n');
-            foreach (var jsonString in jsonStrings)
             {
-                var jsonPrices = JsonSerializer.Deserialize<List<JsonPricePair>>(jsonString, new JsonSerializerOptions
-                {
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                });
-                jsonPricesList.Add(jsonPrices);
+                var response = TraderApiManager.Instance.Cache.GetPastTimeTickers();
+                jsonPricesList.AddRange(response.ToObject());
             }
 
             updatePrices(jsonPricesList);
@@ -230,83 +187,10 @@ namespace BinanceTrader.Controls
         }
 
         /// <summary>
-        /// サーバーから過去の価格情報をダウンロード
-        /// </summary>
-        /// <returns></returns>
-        private string downloadJsonPrices()
-        {
-            var api = Settings.Instance.PrivateApiUrl;
-            if (string.IsNullOrEmpty(api)) return string.Empty;
-
-            var request = WebRequest.Create(api) as HttpWebRequest;
-            request.Method = "GET";
-            request.ContentType = "application/json;";
-
-            var httpResponse = request.GetResponse() as HttpWebResponse;
-
-            if (httpResponse.StatusCode == HttpStatusCode.OK)
-            {
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-                {
-                    return streamReader.ReadToEnd().Trim();
-                }
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// 開発用ダミーデータをファイルから読み込み
-        /// </summary>
-        /// <returns></returns>
-        private string readDummyPrice()
-        {
-            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return string.Empty;
-
-            var assembly = System.Reflection.Assembly.GetEntryAssembly();
-            using (StreamReader sr = new StreamReader(System.IO.Path.GetDirectoryName(assembly.Location) + System.IO.Path.DirectorySeparatorChar + "dummy_price.txt", Encoding.GetEncoding("utf-8")))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
-        /// <summary>
-        /// 開発用ダミーデータをファイルから読み込み
-        /// </summary>
-        /// <returns></returns>
-        private string readDummyPrices()
-        {
-            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return string.Empty;
-
-            var assembly = System.Reflection.Assembly.GetEntryAssembly();
-            using (StreamReader sr = new StreamReader(System.IO.Path.GetDirectoryName(assembly.Location) + System.IO.Path.DirectorySeparatorChar + "dummy_prices.txt", Encoding.GetEncoding("utf-8")))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
-        /// <summary>
-        /// 開発用のダミーデータをファイルから読み込み
-        /// </summary>
-        /// <returns></returns>
-        private string readDummyExchangeInfo()
-        {
-            if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(this)) return string.Empty;
-
-            var assembly = System.Reflection.Assembly.GetEntryAssembly();
-            using (StreamReader sr = new StreamReader(System.IO.Path.GetDirectoryName(assembly.Location) + System.IO.Path.DirectorySeparatorChar + "dummy_exchangeinfo.txt", Encoding.GetEncoding("utf-8")))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
-        /// <summary>
         /// 価格情報を更新
         /// </summary>
         /// <param name="jsonPricePairsList"></param>
-        private void updatePrices(List<List<JsonPricePair>> jsonPricePairsList)
+        private void updatePrices(List<List<PricePair>> jsonPricePairsList)
         {
             var priceMap = new Dictionary<string, List<float>>();
             foreach (var jsonPricePairs in jsonPricePairsList)
@@ -393,6 +277,50 @@ namespace BinanceTrader.Controls
                 Prices = tickerPrices.Prices,
                 Rates = tickerPrices.Rates
             });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void listViewTickers_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            // Ctrl + C で選択済みの列をヘッダーと合わせてクリップボードにコピー
+            if (System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control && e.Key == System.Windows.Input.Key.C)
+            {
+                const char Tab = '\t';
+                var listView = (ListView)sender;
+                var gridView = (GridView)listView.View;
+                var stringBuilder = new System.Text.StringBuilder();
+
+                foreach (var columns in gridView.Columns)
+                {
+                    stringBuilder.Append(columns.Header);
+                    stringBuilder.Append(Tab);
+                }
+                stringBuilder.Append(Environment.NewLine);
+
+                foreach (TickerPrices item in listView.SelectedItems)
+                {
+                    stringBuilder.Append(item.Symbol);
+                    stringBuilder.Append(Tab);
+                    stringBuilder.Append(item.BaseAsset);
+                    stringBuilder.Append(Tab);
+                    stringBuilder.Append(item.QuoteAsset);
+                    stringBuilder.Append(Tab);
+                    for(var i = 0; i < item.Prices.Count; ++i)
+                    {
+                        stringBuilder.Append(item.Prices[i].ToString("0.##############"));
+                        stringBuilder.Append(Tab);
+                        stringBuilder.Append(item.Rates[i].ToString("P"));
+                        stringBuilder.Append(Tab);
+                    }
+                    stringBuilder.Append(Environment.NewLine);
+                }
+
+                System.Windows.Clipboard.SetText(stringBuilder.ToString());
+            }
         }
 
         #region イベント関連

@@ -36,6 +36,7 @@
         <ListView Name="_listViewTickers" ItemsSource="{Binding Path=Prices}"
                   AlternationCount="2" 
                   SelectionChanged="listViewTickers_SelectionChanged"
+                  KeyDown="listViewTickers_KeyDown"
                   IsSynchronizedWithCurrentItem="True"
                   utils:GridViewSort.AutoSort="True">
             <ListView.ItemContainerStyle>
