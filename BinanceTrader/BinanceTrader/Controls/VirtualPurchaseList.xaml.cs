@@ -102,7 +102,7 @@ namespace BinanceTrader.Controls
         /// </summary>
         public void UpdatePurchaseList()
         {
-            var response = BinanceApiManager.Instance.Cache.GetAllTickers();
+            var response = TraderApiManager.Instance.Cache.GetAllTickers();
             var list = response.ToObject();
 
             foreach (var purchase in Purchases)
