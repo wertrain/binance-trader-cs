@@ -40,6 +40,8 @@ namespace BinanceTrader
                 sibling.IsChecked = menuItem == sibling;
             }
             _dockingManager.Theme = menuItem.Tag as Xceed.Wpf.AvalonDock.Themes.Theme;
+
+            Settings.Instance.ThemeName = menuItem.Header.ToString();
         }
 
         /// <summary>
@@ -49,7 +51,17 @@ namespace BinanceTrader
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach(var info in Settings.Instance.VirtualPurchases)
+            // 読み込んだスキン状態を反映
+            foreach (MenuItem item in _themeMenuItem.Items)
+            {
+                if (item.Header.ToString() == Settings.Instance.ThemeName)
+                {
+                    _dockingManager.Theme = item.Tag as Xceed.Wpf.AvalonDock.Themes.Theme;
+                    break;
+                }
+            }
+
+            foreach (var info in Settings.Instance.VirtualPurchases)
             {
                 _virtualPurchases.AddPurchaseInfo(new VirtualPurchaseList.PurchaseInfo()
                 {

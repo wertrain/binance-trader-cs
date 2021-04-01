@@ -134,12 +134,19 @@
     </Compile>
     <Compile Include="Controls\Common\ContextMenuCommand.cs" />
     <Compile Include="Controls\Converters\Converters.cs" />
+    <Compile Include="Controls\Log.xaml.cs">
+      <DependentUpon>Log.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Utilitys\Utilitys.cs" />
     <Compile Include="Controls\VirtualPurchaseList.xaml.cs">
       <DependentUpon>VirtualPurchaseList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Page Include="Controls\Chart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Log.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -159,7 +166,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BinanceApiManager.cs" />
+    <Compile Include="TraderApiManager.cs" />
     <Compile Include="Controls\TickerList.xaml.cs">
       <DependentUpon>TickerList.xaml</DependentUpon>
     </Compile>
@@ -209,5 +216,6 @@
       <Name>Binance</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

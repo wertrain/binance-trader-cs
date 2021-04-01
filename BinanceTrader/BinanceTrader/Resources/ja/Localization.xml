@@ -37,5 +37,10 @@
   <StringItem id="Profit And Loss Rate" context="" translation="損益率" />
   
   <StringItem id="Remove From List" context="" translation="リストから削除" />
-  
+
+  <StringItem id="Log Type" context="" translation=" " />
+  <StringItem id="Log Date Time" context="" translation="時刻" />
+  <StringItem id="Log Message" context="" translation="メッセージ" />
+  <StringItem id="Information Icon" context="" translation="ℹ" />
+  <StringItem id="Error Icon" context="" translation="⚠" />
 </StringLocalizationTable>

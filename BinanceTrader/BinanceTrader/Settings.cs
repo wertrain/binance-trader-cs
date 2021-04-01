@@ -61,6 +61,10 @@ namespace BinanceTrader
         /// </summary>
         public List<VirtualPurchaseInfo> VirtualPurchases;
 
+        /// <summary>
+        /// 適用されているテーマ名
+        /// </summary>
+        public string ThemeName { get; set; }
 
         /// <summary>
         /// 
@@ -81,7 +85,8 @@ namespace BinanceTrader
                 PrivateApiUrl = string.Empty,
                 BinanceApiKey = string.Empty,
                 BinanceSecretKey = string.Empty,
-                VirtualPurchases = new List<VirtualPurchaseInfo>()
+                VirtualPurchases = new List<VirtualPurchaseInfo>(),
+                ThemeName = "Generic"
             };
         }
 
@@ -110,6 +115,7 @@ namespace BinanceTrader
                     BinanceApiKey = settings.BinanceApiKey;
                     BinanceSecretKey = settings.BinanceSecretKey;
                     VirtualPurchases = settings.VirtualPurchases;
+                    ThemeName = settings.ThemeName;
                     return this;
                 }
             }

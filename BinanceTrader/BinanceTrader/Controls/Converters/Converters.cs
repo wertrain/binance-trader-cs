@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BinanceTrader.Localize;
+using System;
 using System.Drawing;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -92,4 +93,28 @@ namespace BinanceTrader.Controls.Converters
     }
 
     #endregion
+
+    /// <summary>
+    /// ログタイプをテキストに変換
+    /// </summary>
+    public class LogTypesConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            switch ((Log.LogMessage.Types)value)
+            {
+                case Log.LogMessage.Types.Information:
+                    return "Information Icon".Localize();
+
+                case Log.LogMessage.Types.Error:
+                    return "Error Icon".Localize();
+            }
+            return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

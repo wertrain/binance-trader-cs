@@ -8,9 +8,10 @@
         xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         mc:Ignorable="d"
-        Title="{m:Loc Binance Trader}" Height="720" Width="1280"
+        Height="945" Width="1680"
         Loaded="Window_Loaded"
-        Closing="Window_Closing">
+        Closing="Window_Closing"
+        Title="{m:Loc Binance Trader}">
     <Window.CommandBindings>
         <CommandBinding Command="Close" Executed="CloseCommand" />
     </Window.CommandBindings>
@@ -26,7 +27,7 @@
                     <MenuItem Header="{m:Loc Exit (_X)}" Command="Close"/>
                 </MenuItem>
                 <MenuItem Header="{m:Loc Tool (_T)}">
-                    <MenuItem Header="{m:Loc Theme (_M)}">
+                    <MenuItem Header="{m:Loc Theme (_M)}" x:Name="_themeMenuItem" >
                         <MenuItem Header="Generic" IsChecked="True" Click="MenuItemToolTheme_Click">
                             <MenuItem.Tag>
                                 <xcad:GenericTheme />
@@ -83,10 +84,10 @@
                         
                     </xcad:LayoutPanel>
                     
-                    <xcad:LayoutAnchorablePane DockHeight="80">
+                    <xcad:LayoutAnchorablePane DockHeight="140">
                         <!-- 出力ウィンドウ -->
                         <xcad:LayoutAnchorable  x:Name="_layoutAnchorableOutput" Title="{m:Loc Output}" ContentId="Output">
-                            <TextBox />
+                            <control:Log x:Name="_log"/>
                         </xcad:LayoutAnchorable>
                         <!-- ログウィンドウ -->
                         <xcad:LayoutAnchorable x:Name="_layoutAnchorableLog" Title="{m:Loc Log}" ContentId="Log">
