@@ -7,7 +7,7 @@
              xmlns:m="clr-namespace:BinanceTrader.Localize.Markup"
              xmlns:local="clr-namespace:BinanceTrader.Controls"
              xmlns:converters="clr-namespace:BinanceTrader.Controls.Converters"
-             xmlns:util="clr-namespace:BinanceTrader.Controls.Utilitys"
+             xmlns:utils="clr-namespace:BinanceTrader.Controls.Utilitys"
              xmlns:glob="clr-namespace:System.Globalization;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -16,12 +16,33 @@
         <converters:ColorOfProfitAndLoss x:Key="ColorOfProfitAndLoss" />
     </UserControl.Resources>
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="ListViewItem">
+                <Style.Triggers>
+                    <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                        <Setter Property="Background" Value="White" />
+                    </Trigger>
+                    <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                        <Setter Property="Background" Value="WhiteSmoke" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <ListView Name="_listViewPurchases" ItemsSource="{Binding Path=Purchases}"
                   AlternationCount="2" 
                   SelectionChanged="listViewPurchases_SelectionChanged"
-                  IsSynchronizedWithCurrentItem="True">
+                  IsSynchronizedWithCurrentItem="True"
+                  utils:GridViewSort.AutoSort="True">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
+                            <Setter Property="Background" Value="White" />
+                        </Trigger>
+                        <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
+                            <Setter Property="Background" Value="WhiteSmoke" />
+                        </Trigger>
+                    </Style.Triggers>
                     <Setter Property="Tag" Value="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ListView}}" />
                     <Setter Property="ContextMenu">
                         <Setter.Value>
@@ -37,20 +58,20 @@
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="70" util:GridViewSort.PropertyName="Symbol"/>
-                    <GridViewColumn Header="{m:Loc Base Asset}" DisplayMemberBinding="{Binding BaseAsset}" Width="50" util:GridViewSort.PropertyName="BaseAsset"/>
-                    <GridViewColumn Header="{m:Loc Quote Asset}" DisplayMemberBinding="{Binding QuoteAsset}" Width="50" util:GridViewSort.PropertyName="QuoteAsset"/>
-                    <GridViewColumn Header="{m:Loc Purchase Price}" DisplayMemberBinding="{Binding PurchasePrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="PurchasePrice"/>
-                    <GridViewColumn Header="{m:Loc Current Price}" DisplayMemberBinding="{Binding CurrentPrice, Converter={StaticResource PriceToString}}" Width="80" util:GridViewSort.PropertyName="CurrentPrice"/>
-                    <GridViewColumn Header="{m:Loc Purchase Date}" DisplayMemberBinding="{Binding PurchaseDate, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Width="120" util:GridViewSort.PropertyName="PurchaseDate"/>
-                    <GridViewColumn Header="{m:Loc Profit And Loss Price}" Width="100" util:GridViewSort.PropertyName="PurchasePrice">
+                    <GridViewColumn Header="{m:Loc Symbol}" DisplayMemberBinding="{Binding Symbol}" Width="70" utils:GridViewSort.PropertyName="Symbol"/>
+                    <GridViewColumn Header="{m:Loc Base Asset}" DisplayMemberBinding="{Binding BaseAsset}" Width="50" utils:GridViewSort.PropertyName="BaseAsset"/>
+                    <GridViewColumn Header="{m:Loc Quote Asset}" DisplayMemberBinding="{Binding QuoteAsset}" Width="50" utils:GridViewSort.PropertyName="QuoteAsset"/>
+                    <GridViewColumn Header="{m:Loc Purchase Price}" DisplayMemberBinding="{Binding PurchasePrice, Converter={StaticResource PriceToString}}" Width="80" utils:GridViewSort.PropertyName="PurchasePrice"/>
+                    <GridViewColumn Header="{m:Loc Current Price}" DisplayMemberBinding="{Binding CurrentPrice, Converter={StaticResource PriceToString}}" Width="80" utils:GridViewSort.PropertyName="CurrentPrice"/>
+                    <GridViewColumn Header="{m:Loc Purchase Date}" DisplayMemberBinding="{Binding PurchaseDate, ConverterCulture={x:Static glob:CultureInfo.CurrentCulture}}" Width="120" utils:GridViewSort.PropertyName="PurchaseDate"/>
+                    <GridViewColumn Header="{m:Loc Profit And Loss Price}" Width="100" utils:GridViewSort.PropertyName="PurchasePrice">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ProfitAndLossPrice, Converter={StaticResource PriceToString}}" Foreground="{Binding ProfitAndLossPrice, Converter={StaticResource ColorOfProfitAndLoss}}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Profit And Loss Rate}" Width="60" util:GridViewSort.PropertyName="PurchaseDate">
+                    <GridViewColumn Header="{m:Loc Profit And Loss Rate}" Width="60" utils:GridViewSort.PropertyName="PurchaseDate">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ProfitAndLossRate, Converter={StaticResource RateToString}}" Foreground="{Binding ProfitAndLossRate, Converter={StaticResource ColorOfProfitAndLoss}}" />
