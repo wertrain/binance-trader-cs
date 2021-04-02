@@ -62,7 +62,64 @@ namespace BinanceTrader.Controls
 
             Logs = new ObservableCollection<LogMessage>();
 
+            Logs.Add(new LogMessage()
+            {
+                DateTime = DateTime.Now,
+                Message = "test"
+            });
+
             _listViewLogs.DataContext = this;
+            _listViewLogs.ItemsSource = Logs;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonSaveFile_Click(object sender, RoutedEventArgs e)
+        {
+            var sfd = new Microsoft.Win32.SaveFileDialog();
+            sfd.FileName = "logs.txt";
+            sfd.Filter = "テキストファイル(*.txt)|*.txt";
+            if (sfd.ShowDialog() ?? false)
+            {
+                foreach (var log in Logs)
+                {
+                    logs.AppendFormat("{0}\t{1}\t{2}", log.LogType, log.DateTime, log.Message);
+                    logs.Append(Environment.NewLine);
+                }
+                using (var stream = sfd.OpenFile())
+                using (var writer = new System.IO.StreamWriter(stream))
+                {
+                    writer.Write(logs.ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonFilter_Click(object sender, RoutedEventArgs e)
+        {
+            var checkedButtons = new List<LogMessage.Types>();
+            if (_buttonFilterInformation.IsChecked ?? false) checkedButtons.Add(LogMessage.Types.Information);
+            if (_buttonFilterError.IsChecked ?? false) checkedButtons.Add(LogMessage.Types.Error);
+
+            var filtered = Logs.Where(x => checkedButtons.Contains(x.LogType)).ToList();
+            _listViewLogs.ItemsSource = filtered;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
+        {
+            Logs.Clear();
             _listViewLogs.ItemsSource = Logs;
         }
     }

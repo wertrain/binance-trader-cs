@@ -18,28 +18,28 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0" Margin="0,0,0,0">
-            <Button Width="24" Height="24" Background="WhiteSmoke">
+            <Button Width="24" Height="24" Background="WhiteSmoke" Click="ButtonSaveFile_Click">
                 <Viewbox Width="18" Height="18">
                     <Canvas Width="24" Height="24">
                         <Path Fill="Black" Data="M5,3A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5.5L18.5,3H17V9A1,1 0 0,1 16,10H8A1,1 0 0,1 7,9V3H5M12,4V9H15V4H12M7,12H17A1,1 0 0,1 18,13V19H6V13A1,1 0 0,1 7,12Z" />
                     </Canvas>
                 </Viewbox>
             </Button>
-            <ToggleButton  Width="24" Height="24" Background="WhiteSmoke">
+            <ToggleButton x:Name="_buttonFilterInformation" Width="24" Height="24" Background="WhiteSmoke" IsChecked="True" Click="ButtonFilter_Click">
                 <Viewbox Width="18" Height="18">
                     <Canvas Width="24" Height="24">
                         <Path Fill="Black" Data="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
                     </Canvas>
                 </Viewbox>
             </ToggleButton>
-            <ToggleButton Width="24" Height="24" Background="WhiteSmoke">
+            <ToggleButton x:Name="_buttonFilterError" Width="24" Height="24" Background="WhiteSmoke" IsChecked="True" Click="ButtonFilter_Click">
                 <Viewbox Width="18" Height="18">
                     <Canvas Width="24" Height="24">
                         <Path Fill="Black" Data="M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16" />
                     </Canvas>
                 </Viewbox>
             </ToggleButton>
-            <Button Width="24" Height="24" Background="WhiteSmoke">
+            <Button Width="24" Height="24" Background="WhiteSmoke" Click="ButtonClear_Click">
                 <Viewbox Width="18" Height="18">
                     <Canvas Width="24" Height="24">
                         <Path Fill="Black" Data="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" />
