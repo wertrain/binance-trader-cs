@@ -80,10 +80,11 @@ namespace BinanceTrader.Controls
         private void ButtonSaveFile_Click(object sender, RoutedEventArgs e)
         {
             var sfd = new Microsoft.Win32.SaveFileDialog();
-            sfd.FileName = "logs.txt";
+            sfd.FileName = "log.txt";
             sfd.Filter = "テキストファイル(*.txt)|*.txt";
             if (sfd.ShowDialog() ?? false)
             {
+                var logs = new StringBuilder();
                 foreach (var log in Logs)
                 {
                     logs.AppendFormat("{0}\t{1}\t{2}", log.LogType, log.DateTime, log.Message);
