@@ -101,12 +101,12 @@ namespace BinanceTrader.Controls.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            switch ((Log.LogMessage.Types)value)
+            switch ((Logging.Logger.LogInfo.Types)value)
             {
-                case Log.LogMessage.Types.Information:
+                case Logging.Logger.LogInfo.Types.Information:
                     return "Information Icon".Localize();
 
-                case Log.LogMessage.Types.Error:
+                case Logging.Logger.LogInfo.Types.Error:
                     return "Error Icon".Localize();
             }
             return string.Empty;

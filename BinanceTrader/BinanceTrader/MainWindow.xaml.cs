@@ -129,9 +129,11 @@ namespace BinanceTrader
             //}
 
             {
-                var param = new Controls.Chart.ChartParam();
-                param.Title = e.Symbol;
-                param.XS = Enumerable.Range(0, e.Prices.Count).Select(i => (double)i).ToList();
+                var param = new Chart.ChartParam
+                {
+                    Title = e.Symbol,
+                    XS = Enumerable.Range(0, e.Prices.Count).Select(i => (double)i).ToList()
+                };
                 param.YSList.Add(e.Rates.Select<float, double>(i => i).ToList());
                 param.Labels.Add("Rate Of Change");
                 _chartRates.UpdateChart(param);

@@ -22,54 +22,29 @@ namespace BinanceTrader.Controls
     public partial class Log : UserControl
     {
         /// <summary>
-        /// ログ情報
-        /// </summary>
-        public class LogMessage
-        {
-            public enum Types
-            {
-                Information,
-                Error
-            };
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public Types LogType { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public DateTime DateTime { get; set; }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            public string Message { get; set; }
-        }
-
-        /// <summary>
-        /// ログ情報
-        /// </summary>
-        private ObservableCollection<LogMessage> Logs;
-
-        /// <summary>
         /// コンストラクタ
         /// </summary>
         public Log()
         {
             InitializeComponent();
 
-            Logs = new ObservableCollection<LogMessage>();
-
-            Logs.Add(new LogMessage()
-            {
-                DateTime = DateTime.Now,
-                Message = "test"
-            });
-
             _listViewLogs.DataContext = this;
-            _listViewLogs.ItemsSource = Logs;
+            _listViewLogs.ItemsSource = Logging.Logger.Instance.Logs;
+
+            Logging.Logger.Instance.OnLogged += Logger_OnLogged;
+        }
+
+        /// <summary>
+        /// ログを更新して反映する
+        /// </summary>
+        private void UpdateLog()
+        {
+            var checkedButtons = new List<Logging.Logger.LogInfo.Types>();
+            if (_buttonFilterInformation.IsChecked ?? false) checkedButtons.Add(Logging.Logger.LogInfo.Types.Information);
+            if (_buttonFilterError.IsChecked ?? false) checkedButtons.Add(Logging.Logger.LogInfo.Types.Error);
+
+            var filtered = Logging.Logger.Instance.Logs.Where(x => checkedButtons.Contains(x.LogType)).ToList();
+            _listViewLogs.ItemsSource = filtered;
         }
 
         /// <summary>
@@ -79,13 +54,15 @@ namespace BinanceTrader.Controls
         /// <param name="e"></param>
         private void ButtonSaveFile_Click(object sender, RoutedEventArgs e)
         {
-            var sfd = new Microsoft.Win32.SaveFileDialog();
-            sfd.FileName = "log.txt";
-            sfd.Filter = "テキストファイル(*.txt)|*.txt";
+            var sfd = new Microsoft.Win32.SaveFileDialog
+            {
+                FileName = "log.txt",
+                Filter = "テキストファイル(*.txt)|*.txt"
+            };
             if (sfd.ShowDialog() ?? false)
             {
                 var logs = new StringBuilder();
-                foreach (var log in Logs)
+                foreach (var log in Logging.Logger.Instance.Logs)
                 {
                     logs.AppendFormat("{0}\t{1}\t{2}", log.LogType, log.DateTime, log.Message);
                     logs.Append(Environment.NewLine);
@@ -105,12 +82,7 @@ namespace BinanceTrader.Controls
         /// <param name="e"></param>
         private void ButtonFilter_Click(object sender, RoutedEventArgs e)
         {
-            var checkedButtons = new List<LogMessage.Types>();
-            if (_buttonFilterInformation.IsChecked ?? false) checkedButtons.Add(LogMessage.Types.Information);
-            if (_buttonFilterError.IsChecked ?? false) checkedButtons.Add(LogMessage.Types.Error);
-
-            var filtered = Logs.Where(x => checkedButtons.Contains(x.LogType)).ToList();
-            _listViewLogs.ItemsSource = filtered;
+            UpdateLog();
         }
 
         /// <summary>
@@ -120,8 +92,18 @@ namespace BinanceTrader.Controls
         /// <param name="e"></param>
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
-            Logs.Clear();
-            _listViewLogs.ItemsSource = Logs;
+            Logging.Logger.Instance.Clear();
+            _listViewLogs.ItemsSource = Logging.Logger.Instance.Logs;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Logger_OnLogged(object sender, Logging.Logger.LoggedEventArgs e)
+        {
+            UpdateLog();
         }
     }
 }

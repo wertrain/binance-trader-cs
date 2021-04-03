@@ -133,6 +133,7 @@
       <DependentUpon>Chart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Common\ContextMenuCommand.cs" />
+    <Compile Include="Controls\Common\ControlBase.cs" />
     <Compile Include="Controls\Converters\Converters.cs" />
     <Compile Include="Controls\Log.xaml.cs">
       <DependentUpon>Log.xaml</DependentUpon>
@@ -141,6 +142,7 @@
     <Compile Include="Controls\VirtualPurchaseList.xaml.cs">
       <DependentUpon>VirtualPurchaseList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="Controls\Chart.xaml">
       <SubType>Designer</SubType>

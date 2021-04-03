@@ -273,7 +273,7 @@ namespace BinanceTrader
         {
             if (IsUseDummyData)
             {
-                return readDummyPrices();
+                return ReadDummyPrices();
             }
 
             var api = Settings.Instance.PrivateApiUrl;
@@ -302,7 +302,7 @@ namespace BinanceTrader
         /// 開発用ダミーデータをファイルから読み込み
         /// </summary>
         /// <returns></returns>
-        private string readDummyPrices()
+        private string ReadDummyPrices()
         {
             var assembly = System.Reflection.Assembly.GetEntryAssembly();
             using (StreamReader sr = new StreamReader(System.IO.Path.GetDirectoryName(assembly.Location) + System.IO.Path.DirectorySeparatorChar + "dummy_prices.txt", Encoding.GetEncoding("utf-8")))

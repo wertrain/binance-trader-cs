@@ -85,15 +85,10 @@
                     </xcad:LayoutPanel>
                     
                     <xcad:LayoutAnchorablePane DockHeight="140">
-                        <!-- 出力ウィンドウ -->
-                        <xcad:LayoutAnchorable  x:Name="_layoutAnchorableOutput" Title="{m:Loc Output}" ContentId="Output">
-                            <control:Log x:Name="_log"/>
-                        </xcad:LayoutAnchorable>
                         <!-- ログウィンドウ -->
                         <xcad:LayoutAnchorable x:Name="_layoutAnchorableLog" Title="{m:Loc Log}" ContentId="Log">
-                            <TextBox />
+                            <control:Log x:Name="_log"/>
                         </xcad:LayoutAnchorable>
-
                     </xcad:LayoutAnchorablePane>
                 </xcad:LayoutPanel>
                 

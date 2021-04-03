@@ -19,7 +19,7 @@ namespace BinanceTrader.Controls
     /// <summary>
     /// TickerList.xaml の相互作用ロジック
     /// </summary>
-    public partial class TickerList : UserControl
+    public partial class TickerList : ControlBase
     {
         /// <summary>
         /// 
@@ -110,7 +110,7 @@ namespace BinanceTrader.Controls
             UpdateSymbols();
             UpdateTickers();
 
-            VirtualPurchaseCommand = new ContextMenuCommand<TickerPrices>(selectVirtualPurchase);
+            VirtualPurchaseCommand = new ContextMenuCommand<TickerPrices>(SelectVirtualPurchase);
 
             _listViewTickers.DataContext = this;
             _listViewTickers.ItemsSource = Prices;
@@ -164,7 +164,9 @@ namespace BinanceTrader.Controls
                 jsonPricesList.AddRange(response.ToObject());
             }
 
-            updatePrices(jsonPricesList);
+            UpdatePrices(jsonPricesList);
+
+            Log("Download the latest pricing information.");
         }
 
         /// <summary>
@@ -190,7 +192,7 @@ namespace BinanceTrader.Controls
         /// 価格情報を更新
         /// </summary>
         /// <param name="jsonPricePairsList"></param>
-        private void updatePrices(List<List<PricePair>> jsonPricePairsList)
+        private void UpdatePrices(List<List<PricePair>> jsonPricePairsList)
         {
             var priceMap = new Dictionary<string, List<float>>();
             foreach (var jsonPricePairs in jsonPricePairsList)
@@ -251,7 +253,7 @@ namespace BinanceTrader.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void selectVirtualPurchase(TickerPrices item)
+        private void SelectVirtualPurchase(TickerPrices item)
         {
             OnSelectVirtualPurchase?.Invoke(this, new VirtualPurchaseEventArgs()
             {
@@ -267,7 +269,7 @@ namespace BinanceTrader.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listViewTickers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewTickers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var tickerPrices = e.AddedItems[0] as TickerPrices;
 
@@ -284,7 +286,7 @@ namespace BinanceTrader.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listViewTickers_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void ListViewTickers_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             // Ctrl + C で選択済みの列をヘッダーと合わせてクリップボードにコピー
             if (System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control && e.Key == System.Windows.Input.Key.C)
