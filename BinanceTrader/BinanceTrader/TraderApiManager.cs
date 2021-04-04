@@ -148,6 +148,11 @@ namespace BinanceTrader
         }
 
         /// <summary>
+        /// キャッシュの有効期間
+        /// </summary>
+        private readonly double CacheLifeTime = 60;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="client"></param>
@@ -172,7 +177,7 @@ namespace BinanceTrader
                 var cachedDate = cache.Date;
                 var span = DateTime.Now - cachedDate;
 
-                if (span.Seconds < 60 * 60)
+                if (span.TotalSeconds < CacheLifeTime)
                 {
                     return new TraderApiResponse<List<PricePair>>(cache.Data);
                 }
@@ -199,7 +204,7 @@ namespace BinanceTrader
                 var cachedDate = cache.Date;
                 var span = DateTime.Now - cachedDate;
 
-                if (span.Seconds < 60 * 60)
+                if (span.TotalSeconds < CacheLifeTime)
                 {
                     return new TraderApiResponse<System.Dynamic.ExpandoObject>(cache.Data);
                 }
@@ -226,7 +231,7 @@ namespace BinanceTrader
                 var cachedDate = cache.Date;
                 var span = DateTime.Now - cachedDate;
 
-                if (span.Seconds < 60 * 60)
+                if (span.TotalSeconds < CacheLifeTime)
                 {
                     return new TraderApiListResponse<List<PricePair>>(cache.Data);
                 }
@@ -346,5 +351,71 @@ namespace BinanceTrader
             Private = new PrivateApiClient();
             Cache = new TraderApiCache(Binance, Private);
         }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class TraderDispatcherTimer
+    {
+        /// <summary>
+        /// インスタンス
+        /// </summary>
+        public static TraderDispatcherTimer Instance { get; } = new TraderDispatcherTimer();
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        private TraderDispatcherTimer()
+        {
+
+        }
+
+        /// <summary>
+        /// タイマーを開始
+        /// </summary>
+        /// <param name="seconds"></param>
+        public void StartTimer(double seconds)
+        {
+            Stop();
+
+            Timer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(seconds)
+            };
+            Timer.Tick += Timer_Tick;
+            Timer.Start();
+        }
+
+        /// <summary>
+        /// タイマーを停止
+        /// </summary>
+        public void Stop()
+        {
+            if (Timer != null && Timer.IsEnabled)
+            {
+                Timer.Stop();
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            Tick?.Invoke(sender, e);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private System.Windows.Threading.DispatcherTimer Timer;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public EventHandler<EventArgs> Tick;
     }
 }

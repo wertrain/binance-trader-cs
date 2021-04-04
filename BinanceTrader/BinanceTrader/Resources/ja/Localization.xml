@@ -9,7 +9,7 @@
   <StringItem id="Prices Chart" context="" translation="価格チャート" />
   <StringItem id="Rates Chart" context="" translation="上昇率チャート" />
   <StringItem id="TickerView" context="" translation="ティッカービュー" />
-  <StringItem id="Output" context="" translation="出力" />
+  <StringItem id="Alert" context="" translation="アラート" />
   <StringItem id="Log" context="" translation="ログ" />
   
   <StringItem id="Symbol" context="" translation="シンボル" />
@@ -38,12 +38,17 @@
   
   <StringItem id="Remove From List" context="" translation="リストから削除" />
 
+  <StringItem id="Rate Of Change (%)" context="" translation="上昇率 (%)" />
+  <StringItem id="Difference from current time (minutes)" context="" translation="現在時刻からの差 (分)" />
+  
   <StringItem id="Log Type" context="" translation=" " />
   <StringItem id="Log Date Time" context="" translation="時刻" />
   <StringItem id="Log Message" context="" translation="メッセージ" />
   <StringItem id="Information Icon" context="" translation="ℹ" />
   <StringItem id="Error Icon" context="" translation="⚠" />
+  <StringItem id="Alert Icon" context="" translation="🔔" />
 
-  <StringItem id="Download the latest pricing information." context="" translation="最新の価格情報を取得しました。" />
+  <StringItem id="[Auto Update] Download the latest pricing information." context="" translation="[自動更新] 最新の価格情報を取得しました。" />
+  <StringItem id="Failed to retrieve historical price data." context="" translation="過去の価格データの取得に失敗しました。" />
   
 </StringLocalizationTable>

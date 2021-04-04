@@ -91,10 +91,12 @@ namespace BinanceTrader.Controls
 
             Purchases = new ObservableCollection<PurchaseInfo>();
 
-            RemoveVirtualPurchaseCommand = new ContextMenuCommand<PurchaseInfo>(selectRemoveFromList);
+            RemoveVirtualPurchaseCommand = new ContextMenuCommand<PurchaseInfo>(SelectRemoveFromList);
 
             _listViewPurchases.DataContext = this;
             _listViewPurchases.ItemsSource = Purchases;
+
+            TraderDispatcherTimer.Instance.Tick += Timer_Tick;
         }
 
         /// <summary>
@@ -116,6 +118,7 @@ namespace BinanceTrader.Controls
                     purchase.ProfitAndLossRate = purchase.ProfitAndLossPrice / purchase.PurchasePrice;
                 }
             }
+            _listViewPurchases.Items.Refresh();
         }
 
         /// <summary>
@@ -134,7 +137,7 @@ namespace BinanceTrader.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listViewPurchases_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewPurchases_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach(PurchaseInfo info in e.AddedItems)
             {
@@ -147,9 +150,19 @@ namespace BinanceTrader.Controls
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void selectRemoveFromList(PurchaseInfo item)
+        private void SelectRemoveFromList(PurchaseInfo item)
         {
             Purchases.Remove(item);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            UpdatePurchaseList();
         }
 
         #region イベント関連

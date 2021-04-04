@@ -61,6 +61,7 @@ namespace BinanceTrader
                 }
             }
 
+            // 仮想購入情報を反映
             foreach (var info in Settings.Instance.VirtualPurchases)
             {
                 _virtualPurchases.AddPurchaseInfo(new VirtualPurchaseList.PurchaseInfo()
@@ -72,6 +73,12 @@ namespace BinanceTrader
                     PurchasePrice = info.PurchasePrice
                 });
             }
+
+            // 自動更新設定
+            if (Settings.Instance.IsAutoUpdate)
+            {
+                TraderDispatcherTimer.Instance.StartTimer(Settings.Instance.AutoUpdateIntervalSeconds);
+            }
         }
 
         /// <summary>
@@ -81,6 +88,8 @@ namespace BinanceTrader
         /// <param name="e"></param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            TraderDispatcherTimer.Instance.Stop();
+
             Settings.Instance.VirtualPurchases.Clear();
             foreach (var info in _virtualPurchases.Purchases)
             {
@@ -133,9 +142,12 @@ namespace BinanceTrader
                 {
                     Title = e.Symbol,
                     XS = Enumerable.Range(0, e.Prices.Count).Select(i => (double)i).ToList()
+                    //XS = new List<double>() { 0, 3, 5, 10, 20, 30, 60, 120, 360, 720, 1440 }
                 };
-                param.YSList.Add(e.Rates.Select<float, double>(i => i).ToList());
+                param.YSList.Add(e.Rates.Select<float, double>(i => i * 100).ToList());
                 param.Labels.Add("Rate Of Change");
+                param.YLabel = "Rate Of Change (%)".Localize();
+                param.XLabel = "Difference from current time (minutes)".Localize();
                 _chartRates.UpdateChart(param);
             }
         }

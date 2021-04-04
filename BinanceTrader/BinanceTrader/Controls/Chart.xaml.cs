@@ -15,15 +15,34 @@ namespace BinanceTrader.Controls
         /// </summary>
         public class ChartParam
         {
+            /// <summary>
+            /// 
+            /// </summary>
             public string Title { get; set; }
 
+            /// <summary>
+            /// 
+            /// </summary>
             public List<double> XS { get; set; } = new List<double>();
 
+            /// <summary>
+            /// 
+            /// </summary>
             public List<List<double>> YSList { get; set; } = new List<List<double>>();
 
+            /// <summary>
+            /// 
+            /// </summary>
             public List<string> Labels { get; set; } = new List<string>();
 
+            /// <summary>
+            /// 
+            /// </summary>
             public string YLabel { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
             public string XLabel { get; set; }
         }
 
@@ -84,15 +103,10 @@ namespace BinanceTrader.Controls
 
         public void UpdateChart(ChartParam param)
         {
-            _chart.plt.Title(param.Title, fontName: ChartDefaultFontName);
-
             _chart.plt.Clear();
 
-            //_chart.plt.Style(figBg: System.Drawing.Color.FromArgb(12, 12, 12));
-            //_chart.plt.Style(dataBg: System.Drawing.Color.FromArgb(44, 44, 44));
-            //_chart.plt.Style(label: System.Drawing.Color.FromArgb(255, 255, 255));
-            //_chart.plt.Style(title: System.Drawing.Color.FromArgb(255, 255, 255));
-            //_chart.plt.Style(tick: System.Drawing.Color.FromArgb(255, 255, 255));
+            _chart.plt.Title(param.Title, fontName: ChartDefaultFontName);
+            //_chart.plt.Style(ScottPlot.Style.Gray1);
 
             foreach (var (y, index) in param.YSList.Select((item, index) => (item, index)))
             {
@@ -102,7 +116,7 @@ namespace BinanceTrader.Controls
             _chart.plt.YLabel(param.YLabel, fontName: ChartDefaultFontName, fontSize: 14);
             _chart.plt.XLabel(param.XLabel, fontName: ChartDefaultFontName, fontSize: 14);
 
-            _chart.plt.Grid(xSpacing: 5, lineStyle: LineStyle.Solid, color: System.Drawing.Color.LightGray, lineWidth: 1);
+            _chart.plt.Grid(xSpacing: 5, lineStyle: LineStyle.Solid, lineWidth: 1);
 
             _chart.Render();
         }

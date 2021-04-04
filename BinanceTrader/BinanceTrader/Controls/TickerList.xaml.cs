@@ -110,6 +110,8 @@ namespace BinanceTrader.Controls
             UpdateSymbols();
             UpdateTickers();
 
+            TraderDispatcherTimer.Instance.Tick += Timer_Tick;
+
             VirtualPurchaseCommand = new ContextMenuCommand<TickerPrices>(SelectVirtualPurchase);
 
             _listViewTickers.DataContext = this;
@@ -159,14 +161,17 @@ namespace BinanceTrader.Controls
             }
 
             // 過去の価格をサーバーから取得
+            try
             {
                 var response = TraderApiManager.Instance.Cache.GetPastTimeTickers();
                 jsonPricesList.AddRange(response.ToObject());
             }
+            catch
+            {
+                Error("Failed to retrieve historical price data.");
+            }
 
             UpdatePrices(jsonPricesList);
-
-            Log("Download the latest pricing information.");
         }
 
         /// <summary>
@@ -271,6 +276,8 @@ namespace BinanceTrader.Controls
         /// <param name="e"></param>
         private void ListViewTickers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (e.AddedItems.Count == 0) return;
+
             var tickerPrices = e.AddedItems[0] as TickerPrices;
 
             SelectionChanged?.Invoke(this, new TickerSelectionChangedEventArgs()
@@ -323,6 +330,18 @@ namespace BinanceTrader.Controls
 
                 System.Windows.Clipboard.SetText(stringBuilder.ToString());
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            UpdateTickers();
+
+            Log("[Auto Update] Download the latest pricing information.");
         }
 
         #region イベント関連

@@ -106,6 +106,9 @@ namespace BinanceTrader.Controls.Converters
                 case Logging.Logger.LogInfo.Types.Information:
                     return "Information Icon".Localize();
 
+                case Logging.Logger.LogInfo.Types.Alert:
+                    return "Alert Icon".Localize();
+
                 case Logging.Logger.LogInfo.Types.Error:
                     return "Error Icon".Localize();
             }

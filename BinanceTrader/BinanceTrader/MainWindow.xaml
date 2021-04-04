@@ -78,6 +78,10 @@
                                     <xcad:LayoutAnchorable Title="{m:Loc Rates Chart}" ContentId="Chart">
                                         <control:Chart x:Name="_chartRates"/>
                                     </xcad:LayoutAnchorable>
+                                    <!-- アラートウィンドウ -->
+                                    <xcad:LayoutAnchorable x:Name="_layoutAnchorableAlert" Title="{m:Loc Alert}" ContentId="Alert">
+                                        <control:AlertList x:Name="_alertList"/>
+                                    </xcad:LayoutAnchorable>
                                 </xcad:LayoutAnchorablePane>
                             </xcad:LayoutPanel>
                         </xcad:LayoutPanel>

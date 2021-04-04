@@ -19,6 +19,7 @@ namespace BinanceTrader.Logging
             public enum Types
             {
                 Information,
+                Alert,
                 Error
             };
 
@@ -61,6 +62,15 @@ namespace BinanceTrader.Logging
         }
 
         /// <summary>
+        /// アラートメッセージを出力
+        /// </summary>
+        /// <param name="message"></param>
+        public void Alert(string message)
+        {
+            Logging(LogInfo.Types.Alert, message);
+        }
+
+        /// <summary>
         /// エラーメッセージを出力
         /// </summary>
         /// <param name="message"></param>
@@ -84,7 +94,7 @@ namespace BinanceTrader.Logging
         /// <param name="message"></param>
         protected void Logging(LogInfo.Types logType, string message)
         {
-            Logs.Add(new LogInfo()
+            Logs.Insert(0, new LogInfo()
             {
                 LogType = logType,
                 DateTime = DateTime.Now,

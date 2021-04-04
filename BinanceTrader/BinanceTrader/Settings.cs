@@ -67,6 +67,16 @@ namespace BinanceTrader
         public string ThemeName { get; set; }
 
         /// <summary>
+        /// 自動更新するかどうか
+        /// </summary>
+        public bool IsAutoUpdate { get; set; }
+
+        /// <summary>
+        /// 自動更新間隔（秒）
+        /// </summary>
+        public double AutoUpdateIntervalSeconds { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         private Settings()
@@ -86,7 +96,9 @@ namespace BinanceTrader
                 BinanceApiKey = string.Empty,
                 BinanceSecretKey = string.Empty,
                 VirtualPurchases = new List<VirtualPurchaseInfo>(),
-                ThemeName = "Generic"
+                ThemeName = "Generic",
+                IsAutoUpdate = true,
+                AutoUpdateIntervalSeconds = 60
             };
         }
 
@@ -116,6 +128,8 @@ namespace BinanceTrader
                     BinanceSecretKey = settings.BinanceSecretKey;
                     VirtualPurchases = settings.VirtualPurchases;
                     ThemeName = settings.ThemeName;
+                    IsAutoUpdate = settings.IsAutoUpdate;
+                    AutoUpdateIntervalSeconds = settings.AutoUpdateIntervalSeconds;
                     return this;
                 }
             }
