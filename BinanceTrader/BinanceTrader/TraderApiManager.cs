@@ -150,7 +150,13 @@ namespace BinanceTrader
         /// <summary>
         /// キャッシュの有効期間
         /// </summary>
-        private readonly double CacheLifeTime = 60;
+        private readonly double PrivateApiCacheLifeTime = 60;
+
+        /// <summary>
+        /// キャッシュの有効期間
+        /// Binance の API は "一分間アクセス数1200回以内" という制限がある
+        /// </summary>
+        private readonly double BinanceApiCacheLifeTime = 1;
 
         /// <summary>
         /// コンストラクタ
@@ -177,7 +183,7 @@ namespace BinanceTrader
                 var cachedDate = cache.Date;
                 var span = DateTime.Now - cachedDate;
 
-                if (span.TotalSeconds < CacheLifeTime)
+                if (span.TotalSeconds < BinanceApiCacheLifeTime)
                 {
                     return new TraderApiResponse<List<PricePair>>(cache.Data);
                 }
@@ -204,7 +210,7 @@ namespace BinanceTrader
                 var cachedDate = cache.Date;
                 var span = DateTime.Now - cachedDate;
 
-                if (span.TotalSeconds < CacheLifeTime)
+                if (span.TotalSeconds < BinanceApiCacheLifeTime)
                 {
                     return new TraderApiResponse<System.Dynamic.ExpandoObject>(cache.Data);
                 }
@@ -231,7 +237,7 @@ namespace BinanceTrader
                 var cachedDate = cache.Date;
                 var span = DateTime.Now - cachedDate;
 
-                if (span.TotalSeconds < CacheLifeTime)
+                if (span.TotalSeconds < PrivateApiCacheLifeTime)
                 {
                     return new TraderApiListResponse<List<PricePair>>(cache.Data);
                 }

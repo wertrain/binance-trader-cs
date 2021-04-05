@@ -86,16 +86,16 @@ namespace BinanceTrader.Controls
             /// </summary>
             public string Status { get; set; }
         }
-
-        /// <summary>
-        /// リストに紐づく価格情報
-        /// </summary>
-        private ObservableCollection<TickerPrices> Prices;
-
+        
         /// <summary>
         /// シンボル情報
         /// </summary>
         private Dictionary<string, SymbolInfo> Symbols;
+
+        /// <summary>
+        /// リストに紐づく価格情報
+        /// </summary>
+        private Dictionary<string, TickerPrices> Prices;
 
         /// <summary>
         /// 
@@ -104,8 +104,8 @@ namespace BinanceTrader.Controls
         {
             InitializeComponent();
 
-            Prices = new ObservableCollection<TickerPrices>();
             Symbols = new Dictionary<string, SymbolInfo>();
+            Prices = new Dictionary<string, TickerPrices>();
 
             UpdateSymbols();
             UpdateTickers();
@@ -115,7 +115,6 @@ namespace BinanceTrader.Controls
             VirtualPurchaseCommand = new ContextMenuCommand<TickerPrices>(SelectVirtualPurchase);
 
             _listViewTickers.DataContext = this;
-            _listViewTickers.ItemsSource = Prices;
         }
 
         /// <summary>
@@ -215,7 +214,6 @@ namespace BinanceTrader.Controls
                 }
             }
 
-            Prices.Clear();
             foreach (var pair in priceMap)
             {
                 var rates = new List<float>();
@@ -242,14 +240,23 @@ namespace BinanceTrader.Controls
                     quoteAsset = Symbols[pair.Key].QuoteAsset;
                 }
 
-                Prices.Add(new TickerPrices()
+                Prices[pair.Key] = new TickerPrices()
                 {
                     Symbol = pair.Key,
                     BaseAsset = baseAsset,
                     QuoteAsset = quoteAsset,
                     Prices = pair.Value,
                     Rates = rates
-                });
+                };
+            }
+
+            var selectedItem = _listViewTickers.SelectedItem as TickerPrices;
+
+            _listViewTickers.ItemsSource = new ObservableCollection<TickerPrices>(Prices.Values);
+
+            if (selectedItem != null)
+            {
+                _listViewTickers.SelectedItem = Prices[selectedItem.Symbol];
             }
         }
 
@@ -341,7 +348,7 @@ namespace BinanceTrader.Controls
         {
             UpdateTickers();
 
-            Log("[Auto Update] Download the latest pricing information.");
+            //Log("[Auto Update] Download the latest pricing information.");
         }
 
         #region イベント関連

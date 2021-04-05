@@ -98,7 +98,7 @@ namespace BinanceTrader
                 VirtualPurchases = new List<VirtualPurchaseInfo>(),
                 ThemeName = "Generic",
                 IsAutoUpdate = true,
-                AutoUpdateIntervalSeconds = 60
+                AutoUpdateIntervalSeconds = 10
             };
         }
 
