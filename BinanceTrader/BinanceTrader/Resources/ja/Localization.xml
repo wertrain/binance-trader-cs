@@ -40,7 +40,9 @@
 
   <StringItem id="Rate Of Change (%)" context="" translation="上昇率 (%)" />
   <StringItem id="Difference from current time (minutes)" context="" translation="現在時刻からの差 (分)" />
-  
+
+  <StringItem id="Alert Conditions" context="" translation="条件" />
+
   <StringItem id="Log Type" context="" translation=" " />
   <StringItem id="Log Date Time" context="" translation="時刻" />
   <StringItem id="Log Message" context="" translation="メッセージ" />

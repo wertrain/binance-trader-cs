@@ -17,8 +17,17 @@
         <ListView x:Name="_listViewLogs" Grid.Row="0" ItemsSource="{Binding Path=Logs}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="{m:Loc Log Type}" Width="30" />
-                    <GridViewColumn Header="{m:Loc Log Message}" DisplayMemberBinding="{Binding Message}" Width="800" />
+                    <GridViewColumn >
+                        <GridViewColumn.Header>
+                            <CheckBox Name="_checkBoxAll" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="5, 0" IsChecked="{Binding Selected}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{m:Loc Alert Conditions}" DisplayMemberBinding="{Binding Message}" Width="800" />
                 </GridView>
             </ListView.View>
         </ListView>
