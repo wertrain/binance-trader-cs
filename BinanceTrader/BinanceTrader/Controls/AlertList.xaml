@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="28"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="_listViewLogs" Grid.Row="0" ItemsSource="{Binding Path=Logs}">
+        <ListView x:Name="_listViewAlerts" Grid.Row="0" ItemsSource="{Binding Path=Logs}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn >
