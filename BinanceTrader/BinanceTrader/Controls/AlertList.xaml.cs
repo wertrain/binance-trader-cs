@@ -21,6 +21,9 @@ namespace BinanceTrader.Controls
         /// </summary>
         public ObservableCollection<AlertInfo> Alerts;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public AlertList()
         {
             InitializeComponent();
