@@ -257,9 +257,7 @@ namespace BinanceTrader.Controls
                 };
             }
 
-
-            // アイテムを更新する
-            // 配列は維持したままで中身を入れ替える
+            #region 配列は維持したままでアイテムの中身を更新するパターン
             foreach (var item in Prices.Values)
             {
                 var findItem = PricesContainer.Where(X => X.Symbol == item.Symbol).FirstOrDefault();
@@ -274,8 +272,9 @@ namespace BinanceTrader.Controls
                 }
             }
             _listViewTickers.Items.Refresh();
+            #endregion
 
-            #region すべてクリアするパターン（こちらのほうがシンプルだが、右クリックでメニューアイテム選択中に更新されると DisconnectedItem 例外が発生する）
+            #region すべてクリアするパターン（こちらのほうがシンプルだが、右クリックでメニューアイテム選択中に更新されると DisconnectedItem になる）
 #if false
             var selectedItem = _listViewTickers.SelectedItem as TickerPrices;
 
@@ -384,7 +383,7 @@ namespace BinanceTrader.Controls
             //Log("[Auto Update] Download the latest pricing information.");
         }
 
-#region イベント関連
+        #region イベント関連
 
         /// <summary>
         /// 銘柄の選択変更イベント引数
@@ -443,15 +442,15 @@ namespace BinanceTrader.Controls
         /// </summary>
         public EventHandler<VirtualPurchaseEventArgs> OnSelectVirtualPurchase;
 
-#endregion
+        #endregion
 
-#region コマンド関連
+        #region コマンド関連
 
         /// <summary>
         /// リストアイテム選択時のコマンド
         /// </summary>
         public ContextMenuCommand<TickerPrices> VirtualPurchaseCommand { get; set; }
 
-#endregion
+        #endregion
     }
 }
