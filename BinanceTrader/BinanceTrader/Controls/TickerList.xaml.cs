@@ -98,6 +98,11 @@ namespace BinanceTrader.Controls
         private Dictionary<string, TickerPrices> Prices;
 
         /// <summary>
+        /// 価格情報を保持するコンテナ
+        /// </summary>
+        private ObservableCollection<TickerPrices> PricesContainer;
+
+        /// <summary>
         /// 
         /// </summary>
         public TickerList()
@@ -106,6 +111,7 @@ namespace BinanceTrader.Controls
 
             Symbols = new Dictionary<string, SymbolInfo>();
             Prices = new Dictionary<string, TickerPrices>();
+            PricesContainer = new ObservableCollection<TickerPrices>();
 
             UpdateSymbols();
             UpdateTickers();
@@ -115,6 +121,7 @@ namespace BinanceTrader.Controls
             VirtualPurchaseCommand = new ContextMenuCommand<TickerPrices>(SelectVirtualPurchase);
 
             _listViewTickers.DataContext = this;
+            _listViewTickers.ItemsSource = PricesContainer;
         }
 
         /// <summary>
@@ -250,14 +257,40 @@ namespace BinanceTrader.Controls
                 };
             }
 
+
+            // アイテムを更新する
+            // 配列は維持したままで中身を入れ替える
+            foreach (var item in Prices.Values)
+            {
+                var findItem = PricesContainer.Where(X => X.Symbol == item.Symbol).FirstOrDefault();
+
+                if (findItem == null)
+                {
+                    PricesContainer.Add(item);
+                }
+                else
+                {
+                    findItem = item;
+                }
+            }
+            _listViewTickers.Items.Refresh();
+
+            #region すべてクリアするパターン（こちらのほうがシンプルだが、右クリックでメニューアイテム選択中に更新されると DisconnectedItem 例外が発生する）
+#if false
             var selectedItem = _listViewTickers.SelectedItem as TickerPrices;
 
-            _listViewTickers.ItemsSource = new ObservableCollection<TickerPrices>(Prices.Values);
+            PricesContainer.Clear();
+            foreach (var item in Prices.Values)
+            {
+                PricesContainer.Add(item);
+            }
 
             if (selectedItem != null)
             {
                 _listViewTickers.SelectedItem = Prices[selectedItem.Symbol];
             }
+#endif
+            #endregion
         }
 
         /// <summary>
@@ -351,7 +384,7 @@ namespace BinanceTrader.Controls
             //Log("[Auto Update] Download the latest pricing information.");
         }
 
-        #region イベント関連
+#region イベント関連
 
         /// <summary>
         /// 銘柄の選択変更イベント引数
@@ -410,15 +443,15 @@ namespace BinanceTrader.Controls
         /// </summary>
         public EventHandler<VirtualPurchaseEventArgs> OnSelectVirtualPurchase;
 
-        #endregion
+#endregion
 
-        #region コマンド関連
+#region コマンド関連
 
         /// <summary>
         /// リストアイテム選択時のコマンド
         /// </summary>
         public ContextMenuCommand<TickerPrices> VirtualPurchaseCommand { get; set; }
 
-        #endregion
+#endregion
     }
 }
