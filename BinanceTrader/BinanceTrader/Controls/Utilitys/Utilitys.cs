@@ -93,7 +93,7 @@ namespace BinanceTrader.Controls.Utilitys
 
         public static string GetPropertyName(DependencyObject obj)
         {
-            return (string)obj.GetValue(PropertyNameProperty);
+            return (string)obj?.GetValue(PropertyNameProperty);
         }
 
         public static void SetPropertyName(DependencyObject obj, string value)
