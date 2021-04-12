@@ -25,6 +25,7 @@ namespace BinanceTrader
             _tickerList.SelectionChanged += TickerList_SelectionChanged;
             _tickerList.OnSelectVirtualPurchase += TickerList_OnSelectVirtualPurchase;
             _virtualPurchases.SelectionChanged += VirtualPurchases_SelectionChanged;
+            _log.SelectionChanged += Logs_SelectionChanged;
         }
 
         /// <summary>
@@ -79,6 +80,10 @@ namespace BinanceTrader
             {
                 TraderDispatcherTimer.Instance.StartTimer(Settings.Instance.AutoUpdateIntervalSeconds);
             }
+
+            // 自動アラート設定
+            var autoAlertService = Services.ServiceManager.Instance.CreateService<Services.AutoAlertService>();
+            autoAlertService.AddAlert(new Services.Alerts.PriceRateIncreaseAlert(3.0f));
         }
 
         /// <summary>
@@ -177,6 +182,19 @@ namespace BinanceTrader
         private void VirtualPurchases_SelectionChanged(object sender, VirtualPurchaseList.VirtualPurchaseSelectionChangedEventArgs e)
         {
             _tickerList.SelectSymbol(e.Symbol);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Logs_SelectionChanged(object sender, Log.LogSelectionChangedEventArgs e)
+        {
+            if (e.LogInfo.Tag is PricePair p)
+            {
+                _tickerList.SelectSymbol(p.Symbol);
+            }
         }
     }
 }

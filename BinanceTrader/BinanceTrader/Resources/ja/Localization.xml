@@ -52,5 +52,6 @@
 
   <StringItem id="[Auto Update] Download the latest pricing information." context="" translation="[自動更新] 最新の価格情報を取得しました。" />
   <StringItem id="Failed to retrieve historical price data." context="" translation="過去の価格データの取得に失敗しました。" />
-  
+  <StringItem id="{0} is up {1}." context="" translation="{0} が {1} 上昇しています。" />
+
 </StringLocalizationTable>

@@ -37,6 +37,11 @@ namespace BinanceTrader.Logging
             /// 
             /// </summary>
             public string Message { get; set; }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public object Tag { get; set; }
         }
 
         /// <summary>
@@ -71,6 +76,15 @@ namespace BinanceTrader.Logging
         }
 
         /// <summary>
+        /// アラートメッセージを出力
+        /// </summary>
+        /// <param name="message"></param>
+        public void Alert(string message, object tag)
+        {
+            Logging(LogInfo.Types.Alert, message, tag);
+        }
+
+        /// <summary>
         /// エラーメッセージを出力
         /// </summary>
         /// <param name="message"></param>
@@ -94,11 +108,22 @@ namespace BinanceTrader.Logging
         /// <param name="message"></param>
         protected void Logging(LogInfo.Types logType, string message)
         {
+            Logging(logType, message, null);
+        }
+
+        /// <summary>
+        /// ログ
+        /// </summary>
+        /// <param name="logType"></param>
+        /// <param name="message"></param>
+        protected void Logging(LogInfo.Types logType, string message, object tag)
+        {
             Logs.Insert(0, new LogInfo()
             {
                 LogType = logType,
                 DateTime = DateTime.Now,
-                Message = message
+                Message = message,
+                Tag = tag
             });
 
             OnLogged?.Invoke(this, new LoggedEventArgs(Logs));

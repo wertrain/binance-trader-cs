@@ -41,6 +41,7 @@ namespace BinanceTrader.Controls
         {
             var checkedButtons = new List<Logging.Logger.LogInfo.Types>();
             if (_buttonFilterInformation.IsChecked ?? false) checkedButtons.Add(Logging.Logger.LogInfo.Types.Information);
+            if (_buttonFilterAlert.IsChecked ?? false) checkedButtons.Add(Logging.Logger.LogInfo.Types.Alert);
             if (_buttonFilterError.IsChecked ?? false) checkedButtons.Add(Logging.Logger.LogInfo.Types.Error);
 
             var filtered = Logging.Logger.Instance.Logs.Where(x => checkedButtons.Contains(x.LogType)).ToList();
@@ -97,6 +98,20 @@ namespace BinanceTrader.Controls
         }
 
         /// <summary>
+        /// リストの選択が変更された時のイベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ListViewLogs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count == 0) return;
+
+            var log = e.AddedItems[0] as Logging.Logger.LogInfo;
+
+            SelectionChanged?.Invoke(this, new LogSelectionChangedEventArgs(log));
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
@@ -105,5 +120,31 @@ namespace BinanceTrader.Controls
         {
             UpdateLog();
         }
+
+        #region イベント関連
+
+        /// <summary>
+        /// 仮想購入が選択されたときのイベント引数
+        /// </summary>
+        public class LogSelectionChangedEventArgs
+        {
+            /// <summary>
+            /// ログ
+            /// </summary>
+            public Logging.Logger.LogInfo LogInfo { get; set; }
+
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
+            /// <param name="symbol"></param>
+            public LogSelectionChangedEventArgs(Logging.Logger.LogInfo logInfo) => LogInfo = logInfo;
+        }
+
+        /// <summary>
+        /// リストから銘柄を選択したときのイベント
+        /// </summary>
+        public EventHandler<LogSelectionChangedEventArgs> SelectionChanged;
+        
+        #endregion
     }
 }

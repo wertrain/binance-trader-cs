@@ -54,7 +54,7 @@
                 </Viewbox>
             </Button>
         </WrapPanel>
-        <ListView x:Name="_listViewLogs" Grid.Row="1" ItemsSource="{Binding Path=Logs}">
+        <ListView x:Name="_listViewLogs" Grid.Row="1" ItemsSource="{Binding Path=Logs}" SelectionChanged="ListViewLogs_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{m:Loc Log Type}" DisplayMemberBinding="{Binding LogType, Converter={StaticResource LogTypesConverter}}" Width="30" />
