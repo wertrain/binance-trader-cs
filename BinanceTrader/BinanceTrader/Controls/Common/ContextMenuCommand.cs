@@ -3,7 +3,6 @@ using System.Windows.Input;
 
 namespace BinanceTrader.Controls.Common
 {
-
     /// <summary>
     /// コマンド
     /// </summary>

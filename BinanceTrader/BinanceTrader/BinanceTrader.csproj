@@ -147,7 +147,7 @@
     </Compile>
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Services\ServiceManager.cs" />
-    <Compile Include="Services\AutoAlertService.cs" />
+    <Compile Include="Services\AlertService.cs" />
     <Compile Include="Services\Common\ServiceBase.cs" />
     <Compile Include="Settings.cs" />
     <Page Include="Controls\AlertList.xaml">

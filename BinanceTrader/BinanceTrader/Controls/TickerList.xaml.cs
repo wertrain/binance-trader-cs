@@ -258,6 +258,7 @@ namespace BinanceTrader.Controls
             }
 
             #region 配列は維持したままでアイテムの中身を更新するパターン
+#if false
             foreach (var item in Prices.Values)
             {
                 var findItem = PricesContainer.Where(X => X.Symbol == item.Symbol).FirstOrDefault();
@@ -268,14 +269,14 @@ namespace BinanceTrader.Controls
                 }
                 else
                 {
-                    findItem = item;
+                    findItem.Prices = item.Prices;
                 }
             }
             _listViewTickers.Items.Refresh();
+#endif
             #endregion
 
-            #region すべてクリアするパターン（こちらのほうがシンプルだが、右クリックでメニューアイテム選択中に更新されると DisconnectedItem になる）
-#if false
+            #region すべてクリアするパターン
             var selectedItem = _listViewTickers.SelectedItem as TickerPrices;
 
             PricesContainer.Clear();
@@ -288,7 +289,6 @@ namespace BinanceTrader.Controls
             {
                 _listViewTickers.SelectedItem = Prices[selectedItem.Symbol];
             }
-#endif
             #endregion
         }
 

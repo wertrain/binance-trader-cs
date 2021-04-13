@@ -13,7 +13,21 @@ namespace BinanceTrader.Services.Alerts
     /// </summary>
     public interface IAlert
     {
+        /// <summary>
+        /// 
+        /// </summary>
         void Check();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        string GetSummaryText();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        bool Enabled { get; set; }
     }
 
     /// <summary>
@@ -21,6 +35,9 @@ namespace BinanceTrader.Services.Alerts
     /// </summary>
     public class PriceRateIncreaseAlert : IAlert
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public float Percent { get; set; }
 
         /// <summary>
@@ -70,6 +87,20 @@ namespace BinanceTrader.Services.Alerts
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetSummaryText()
+        {
+            return string.Format("Notify when {0}% rise within {1} minutes".Localize(), Percent, 3);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Enabled { get; set; }
     }
 }
 
@@ -78,17 +109,17 @@ namespace BinanceTrader.Services
     /// <summary>
     /// 
     /// </summary>
-    public class AutoAlertService : ServiceBase
+    public class AlertService : ServiceBase
     {
         /// <summary>
         /// 
         /// </summary>
-        private List<Alerts.IAlert> Alerts { get; set; }
+        public List<Alerts.IAlert> Alerts { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public AutoAlertService()
+        public AlertService()
         {
             Alerts = new List<Alerts.IAlert>();
         }
@@ -121,7 +152,10 @@ namespace BinanceTrader.Services
         {
             foreach(var alert in Alerts)
             {
-                alert.Check();
+                if (alert.Enabled)
+                {
+                    alert.Check();
+                }
             }
         }
     }

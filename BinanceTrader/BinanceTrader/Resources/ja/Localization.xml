@@ -54,4 +54,6 @@
   <StringItem id="Failed to retrieve historical price data." context="" translation="過去の価格データの取得に失敗しました。" />
   <StringItem id="{0} is up {1}." context="" translation="{0} が {1} 上昇しています。" />
 
+  <StringItem id="Notify when {0}% rise within {1} minutes" context="" translation="{0} 分以内に {1}% 上昇したときに通知" />
+
 </StringLocalizationTable>
