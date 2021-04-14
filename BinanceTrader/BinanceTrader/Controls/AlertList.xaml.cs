@@ -13,7 +13,15 @@ namespace BinanceTrader.Controls
         /// </summary>
         public class AlertInfo
         {
-
+            /// <summary>
+            /// 
+            /// </summary>
+            public bool Enabled { get; set; }
+            
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Conditions { get; set; }
         }
 
         /// <summary>
@@ -27,6 +35,20 @@ namespace BinanceTrader.Controls
         public AlertList()
         {
             InitializeComponent();
+
+            var alertService = Services.ServiceManager.Instance.GetService<Services.AlertService>();
+
+            if (alertService != null)
+            {
+                foreach (var alert in alertService.Alerts)
+                {
+                    Alerts.Add(new AlertInfo()
+                    {
+                        Enabled = alert.Enabled,
+                        Conditions = alert.GetSummaryText()
+                    });
+                }
+            }
         }
     }
 }

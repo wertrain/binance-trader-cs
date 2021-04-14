@@ -23,11 +23,11 @@
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Margin="5, 0" IsChecked="{Binding Selected}"/>
+                                <CheckBox Margin="5, 0" IsChecked="{Binding Enabled}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{m:Loc Alert Conditions}" DisplayMemberBinding="{Binding Message}" Width="800" />
+                    <GridViewColumn Header="{m:Loc Alert Conditions}" DisplayMemberBinding="{Binding Conditions}" Width="800" />
                 </GridView>
             </ListView.View>
         </ListView>
