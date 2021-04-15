@@ -36,6 +36,17 @@ namespace BinanceTrader.Controls
         {
             InitializeComponent();
 
+            Alerts = new ObservableCollection<AlertInfo>();
+
+            _listViewAlerts.DataContext = this;
+            _listViewAlerts.ItemsSource = Alerts;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void UpdateAlertList()
+        {
             var alertService = Services.ServiceManager.Instance.GetService<Services.AlertService>();
 
             if (alertService != null)

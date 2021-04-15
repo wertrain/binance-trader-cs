@@ -94,13 +94,13 @@ namespace BinanceTrader.Services.Alerts
         /// <returns></returns>
         public string GetSummaryText()
         {
-            return string.Format("Notify when {0}% rise within {1} minutes".Localize(), Percent, 3);
+            return string.Format("Notify when {0} rise within {1} minutes".Localize(), Percent.ToString("P"), 3);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public bool Enabled { get; set; }
+        public bool Enabled { get; set; } = true;
     }
 }
 
