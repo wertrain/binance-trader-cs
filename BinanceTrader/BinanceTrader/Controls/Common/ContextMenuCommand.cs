@@ -21,12 +21,34 @@ namespace BinanceTrader.Controls.Common
         private Action<T> action_;
 
         /// <summary>
+        /// 値のコンバーター
+        /// </summary>
+        Func<object, T> converter_;
+
+        /// <summary>
+        /// アクション
+        /// </summary>
+        private Action<object> execute_;
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="action">コマンド実行時アクション</param>
         public ContextMenuCommand(Action<T> action)
         {
             action_ = action;
+            execute_ = DoExecute;
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="action">コマンド実行時アクション</param>
+        public ContextMenuCommand(Action<T> action, Func<object, T> converter)
+        {
+            action_ = action;
+            converter_ = converter;
+            execute_ = DoConvertAndExecute;
         }
 
         /// <summary>
@@ -40,15 +62,30 @@ namespace BinanceTrader.Controls.Common
         }
 
         /// <summary>
-        /// コマンドを実行します
+        /// コマンドを実行
         /// </summary>
         /// <param name="parameter">パラメータ</param>
         public void Execute(object parameter)
         {
-            if (action_ != null)
-            {
-                action_.Invoke((T)parameter);
-            }
+            execute_(parameter);
+        }
+
+        /// <summary>
+        /// コマンドの実行処理
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void DoExecute(object parameter)
+        {
+            action_?.Invoke((T)parameter);
+        }
+
+        /// <summary>
+        /// 値をコンバートしてコマンドを実行
+        /// </summary>
+        /// <param name="parameter"></param>
+        private void DoConvertAndExecute(object parameter)
+        {
+            action_?.Invoke(converter_.Invoke(parameter));
         }
     }
 }

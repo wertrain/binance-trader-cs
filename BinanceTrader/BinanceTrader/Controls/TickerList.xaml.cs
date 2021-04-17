@@ -9,14 +9,6 @@ using BinanceTrader.Controls.Common;
 namespace BinanceTrader.Controls
 {
     /// <summary>
-    /// デバッグ用の定数
-    /// </summary>
-    class LocalConstants
-    {
-        public static readonly bool UseDummyData = false;
-    }
-
-    /// <summary>
     /// TickerList.xaml の相互作用ロジック
     /// </summary>
     public partial class TickerList : ControlBase
@@ -118,7 +110,9 @@ namespace BinanceTrader.Controls
 
             TraderDispatcherTimer.Instance.Tick += Timer_Tick;
 
-            VirtualPurchaseCommand = new ContextMenuCommand<TickerPrices>(SelectVirtualPurchase);
+            VirtualPurchaseCommand = new ContextMenuCommand<TickerPrices>(
+                SelectVirtualPurchase,
+                SelectVirtualPurchaseConverter);
 
             _listViewTickers.DataContext = this;
             _listViewTickers.ItemsSource = PricesContainer;
@@ -257,8 +251,10 @@ namespace BinanceTrader.Controls
                 };
             }
 
+            #region リストの更新処理
+
+            #if false
             #region 配列は維持したままでアイテムの中身を更新するパターン
-#if false
             foreach (var item in Prices.Values)
             {
                 var findItem = PricesContainer.Where(X => X.Symbol == item.Symbol).FirstOrDefault();
@@ -270,12 +266,12 @@ namespace BinanceTrader.Controls
                 else
                 {
                     findItem.Prices = item.Prices;
+                    findItem.Rates = item.Rates;
                 }
             }
             _listViewTickers.Items.Refresh();
-#endif
             #endregion
-
+            #else
             #region すべてクリアするパターン
             var selectedItem = _listViewTickers.SelectedItem as TickerPrices;
 
@@ -289,6 +285,9 @@ namespace BinanceTrader.Controls
             {
                 _listViewTickers.SelectedItem = Prices[selectedItem.Symbol];
             }
+            #endregion
+            #endif
+
             #endregion
         }
 
@@ -306,6 +305,17 @@ namespace BinanceTrader.Controls
                 QuoteAsset = item.QuoteAsset,
                 Price = item.Prices.FirstOrDefault()
             });
+        }
+
+        /// <summary>
+        /// 仮想購入が選択された時の値のコンバーター
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private TickerPrices SelectVirtualPurchaseConverter(object param)
+        {
+            var selectedItem = _listViewTickers.SelectedItem as TickerPrices;
+            return Prices[selectedItem.Symbol];
         }
 
         /// <summary>
