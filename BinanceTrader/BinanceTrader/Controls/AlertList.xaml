@@ -12,14 +12,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="28"/>
+            <!--<RowDefinition Height="28"/>-->
         </Grid.RowDefinitions>
         <ListView x:Name="_listViewAlerts" Grid.Row="0" ItemsSource="{Binding Path=Logs}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn >
                         <GridViewColumn.Header>
-                            <CheckBox Name="_checkBoxAll" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <CheckBox Name="_checkBoxAll" Checked="CheckBoxAll_Checked" Unchecked="CheckBoxAll_Unchecked" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -31,6 +31,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <!--
         <WrapPanel Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Right">
             <Button Width="80" Height="28" Background="WhiteSmoke">
                 <StackPanel Orientation="Horizontal">
@@ -41,5 +42,6 @@
                 </StackPanel>
             </Button>
         </WrapPanel>
+        -->
     </Grid>
 </common:ControlBase>

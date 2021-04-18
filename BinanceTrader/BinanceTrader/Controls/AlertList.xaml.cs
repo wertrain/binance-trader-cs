@@ -14,14 +14,29 @@ namespace BinanceTrader.Controls
         public class AlertInfo
         {
             /// <summary>
-            /// 
+            /// アラートインターフェース
             /// </summary>
-            public bool Enabled { get; set; }
-            
+            private Services.Alerts.IAlert Alert;
+
             /// <summary>
             /// 
             /// </summary>
-            public string Conditions { get; set; }
+            public bool Enabled
+            {
+                get { return Alert.Enabled; }
+                set { Alert.Enabled = value; }
+            }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public string Conditions => Alert.GetSummaryText();
+
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
+            /// <param name="alert"></param>
+            public AlertInfo(Services.Alerts.IAlert alert) => Alert = alert;
         }
 
         /// <summary>
@@ -53,13 +68,37 @@ namespace BinanceTrader.Controls
             {
                 foreach (var alert in alertService.Alerts)
                 {
-                    Alerts.Add(new AlertInfo()
-                    {
-                        Enabled = alert.Enabled,
-                        Conditions = alert.GetSummaryText()
-                    });
+                    Alerts.Add(new AlertInfo(alert));
                 }
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CheckBoxAll_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            foreach(var alert in Alerts)
+            {
+                alert.Enabled = true;
+            }
+            _listViewAlerts.Items.Refresh();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void CheckBoxAll_Unchecked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            foreach (var alert in Alerts)
+            {
+                alert.Enabled = false;
+            }
+            _listViewAlerts.Items.Refresh();
         }
     }
 }

@@ -83,7 +83,7 @@ namespace BinanceTrader
 
             // 自動アラート設定
             var autoAlertService = Services.ServiceManager.Instance.CreateService<Services.AlertService>();
-            //autoAlertService.AddAlert(new Services.Alerts.PriceRateIncreaseAlert(3.0f));
+            autoAlertService.AddAlert(new Services.Alerts.PriceRateIncreaseAlert(3.0f));
 
             // アラートリストの更新
             _alertList.UpdateAlertList();
