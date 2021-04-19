@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Text.Json;
 using System.Collections.ObjectModel;
 using BinanceTrader.Controls.Common;
+using System.Threading.Tasks;
 
 namespace BinanceTrader.Controls
 {
@@ -107,6 +108,7 @@ namespace BinanceTrader.Controls
 
             UpdateSymbols();
             UpdateTickers();
+            ApplyPrices();
 
             TraderDispatcherTimer.Instance.Tick += Timer_Tick;
 
@@ -250,10 +252,16 @@ namespace BinanceTrader.Controls
                     Rates = rates
                 };
             }
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ApplyPrices()
+        {
             #region リストの更新処理
 
-            #if false
+#if false
             #region 配列は維持したままでアイテムの中身を更新するパターン
             foreach (var item in Prices.Values)
             {
@@ -271,7 +279,7 @@ namespace BinanceTrader.Controls
             }
             _listViewTickers.Items.Refresh();
             #endregion
-            #else
+#else
             #region すべてクリアするパターン
             var selectedItem = _listViewTickers.SelectedItem as TickerPrices;
 
@@ -286,7 +294,7 @@ namespace BinanceTrader.Controls
                 _listViewTickers.SelectedItem = Prices[selectedItem.Symbol];
             }
             #endregion
-            #endif
+#endif
 
             #endregion
         }
@@ -388,7 +396,8 @@ namespace BinanceTrader.Controls
         /// <param name="e"></param>
         private void Timer_Tick(object sender, EventArgs e)
         {
-            UpdateTickers();
+            Task.Run(() => { UpdateTickers(); }).Wait();
+            ApplyPrices();
 
             //Log("[Auto Update] Download the latest pricing information.");
         }
